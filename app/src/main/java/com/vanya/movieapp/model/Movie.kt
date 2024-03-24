@@ -56,4 +56,6 @@ data class Movie(
         val average = voteAverage?.times(10)
         return "${average?.toInt()}%"
     }
+
+    fun fullPathUrl() : String = "https://image.tmdb.org/t/p/w342$posterPath"
 }
