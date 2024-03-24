@@ -158,7 +158,13 @@ class HomeFragment : Fragment() {
 
     private fun setupAdapter(list: List<GenresItem>) {
         with(binding) {
-            mAdapter = HomeAdapter(list)
+            mAdapter = HomeAdapter(
+                listGenre = list,
+                onClick = {
+                    it.id?.let { id ->
+                        Toast.makeText(this@HomeFragment.context, id.toString(), Toast.LENGTH_SHORT).show()
+                    }
+                })
             rv.adapter = mAdapter
         }
     }

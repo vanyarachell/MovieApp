@@ -14,7 +14,7 @@ import com.vanya.movieapp.model.Movie
  * Created by vanyarachell on Sun, 24 Mar 2024
  * vanyarachel05@gmail.com
  */
-class HomeAdapter constructor(val listGenre: List<GenresItem>) :
+class HomeAdapter constructor(val listGenre: List<GenresItem>, val onClick: (Movie) -> Unit) :
     RecyclerView.Adapter<HomeAdapter.ItemViewHolder>() {
 
     private val listItem = mutableListOf<Movie>()
@@ -46,6 +46,10 @@ class HomeAdapter constructor(val listGenre: List<GenresItem>) :
         fun bind(item: Movie) {
             binding.movie = item
             Log.e("GENRE ", "==== SIZE GENRE ${listGenre.size}")
+            binding.container.setOnClickListener {
+                onClick(item)
+            }
+
             val mChildAdapter = ChildAdapter(listGenre)
             binding.childAdapter = mChildAdapter
             item.genreIds?.let {
