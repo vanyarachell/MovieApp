@@ -11,7 +11,7 @@ import com.vanya.movieapp.model.GenresItem
  * Created by vanyarachell on Sun, 24 Mar 2024
  * vanyarachel05@gmail.com
  */
-class ChildAdapter : RecyclerView.Adapter<ChildAdapter.ItemViewHolder>() {
+class ChildAdapter constructor(val listGenre: List<GenresItem>) : RecyclerView.Adapter<ChildAdapter.ItemViewHolder>() {
 
     private val listItem = arrayListOf<String>()
 
@@ -30,22 +30,23 @@ class ChildAdapter : RecyclerView.Adapter<ChildAdapter.ItemViewHolder>() {
 
     override fun getItemCount() = listItem.size
 
-    fun updateData(list: List<GenresItem>, listIds: List<Int>) {
+    fun updateData(listIds: List<Int>) {
         listItem.clear()
         val listString = arrayListOf<String>()
-
-        for (i in list) {
-            for (j in listIds) {
-                if (i.id == j) {
-                    i.name?.let {
-                        listString.add(it)
+        listIds.forEach { ids ->
+            listGenre.forEach { genre ->
+                genre.id?.let {
+                    if (ids == it) {
+                        genre.name?.let { name ->
+                            listString.add(name)
+                        }
                     }
                 }
             }
         }
 
         listItem.addAll(listString)
-        notifyItemRangeChanged(0, list.size)
+        notifyItemRangeChanged(0, listItem.size)
     }
 
     inner class ItemViewHolder(private val binding: ItemCategoryBinding) :

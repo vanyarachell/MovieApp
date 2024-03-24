@@ -5,12 +5,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.vanya.movieapp.databinding.FragmentHomeBinding
 import com.vanya.movieapp.model.GenreResponse
 import com.vanya.movieapp.model.GenresItem
-import com.vanya.movieapp.model.Movie
 import com.vanya.movieapp.model.MovieResponse
 import com.vanya.movieapp.retrofit.RetrofitBuilder
 import retrofit2.Call
@@ -30,13 +31,8 @@ class HomeFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
-    private val mAdapter: HomeAdapter by lazy {
-        HomeAdapter()
-    }
+    private lateinit var mAdapter: HomeAdapter
 
-    private val movieList = arrayListOf<Movie>()
-
-    private var mListGenres = listOf<GenresItem>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,9 +50,23 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-            with(rv) {
-                adapter = mAdapter
-            }
+
+            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    Log.e("my onQueryTextSubmit", "===== ${query}")
+
+                    query?.let {
+                        doSearch(it)
+                    }
+                    return false
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    Log.e("my onQueryTextChange", "===== ${newText}")
+                    return false
+                }
+
+            })
         }
 
         getGenres()
@@ -77,8 +87,11 @@ class HomeFragment : Fragment() {
                     for (genre in listGenres) {
                         Log.e(TAG, "${genre.id}")
                     }
-                    mListGenres = listGenres
-                    getMovies()
+
+                    if (response.isSuccessful) {
+                        setupAdapter(listGenres)
+                        getMovies()
+                    }
                 }
             }
 
@@ -94,15 +107,13 @@ class HomeFragment : Fragment() {
             override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
 
 
-                response.body()?.results?.let { listGame ->
-                    Log.e(TAG, "$listGame")
+                response.body()?.results?.let { listMovies ->
+                    Log.e(TAG, "$listMovies")
 
-                    for (game in listGame) {
+                    for (game in listMovies) {
                         Log.e(TAG, "${game.id}")
                     }
-
-                    movieList.addAll(listGame)
-                    mAdapter.updateData(movieList, mListGenres)
+                    mAdapter.updateData(listMovies)
                 }
             }
 
@@ -112,4 +123,43 @@ class HomeFragment : Fragment() {
         })
     }
 
+    private fun doSearch(query: String) {
+        val repoMovies = RetrofitBuilder.service.searchMovie(TOKEN, query)
+        repoMovies?.enqueue(object : Callback<MovieResponse> {
+            override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
+
+
+                response.body()?.results?.let { listSearch ->
+                    Log.e(TAG, "$listSearch")
+
+                    for (movie in listSearch) {
+                        Log.e(TAG, "${movie.id}")
+                    }
+
+                    Log.e(TAG, "==== UKURAN ${listSearch.size}")
+
+                    if (listSearch.isNotEmpty()) {
+                        mAdapter.updateData(listSearch)
+                    } else {
+                        Toast.makeText(
+                            this@HomeFragment.context,
+                            "Movie Not Found",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
+                Log.e(TAG, "${t.message}")
+            }
+        })
+    }
+
+    private fun setupAdapter(list: List<GenresItem>) {
+        with(binding) {
+            mAdapter = HomeAdapter(list)
+            rv.adapter = mAdapter
+        }
+    }
 }
