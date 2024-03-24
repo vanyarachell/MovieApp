@@ -7,7 +7,7 @@
     tools:context=".ui.home.HomeFragment">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbar"
+        android:id="@+id/appbar_home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:ignore="MissingConstraints">
@@ -33,27 +33,25 @@
                     android:hint="@string/search" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tv_title"
+                    android:id="@+id/tv_title_home"
+                    style="@style/JomhuriaHeaderGreen"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/jomhuria_regular"
-                    android:text="@string/popular_right_now"
-                    android:textColor="@color/dark_green"
-                    android:textSize="@dimen/sp60" />
+                    android:text="@string/popular_right_now" />
 
             </LinearLayout>
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv"
+        android:id="@+id/rv_movies"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp0"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/appbar"
+        app:layout_constraintTop_toBottomOf="@id/appbar_home"
         tools:itemCount="3"
         tools:listitem="@layout/item_movie" />
 </androidx.constraintlayout.widget.ConstraintLayout>

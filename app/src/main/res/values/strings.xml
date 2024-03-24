@@ -7,10 +7,20 @@
     <string name="search">Search</string>
     <string name="movie_title">Movie\'s Title</string>
     <string name="movie_year">Movie\'s Year</string>
+    <string name="movie_genre">Movie\'s Genre</string>
+    <string name="movie_desc">Movie\'s Description</string>
     <string name="movie_rating">0%</string>
     <string name="user_score">user score</string>
     <string name="retry">Try Again</string>
     <string name="movies_fragment_label">Fragment Movies</string>
     <string name="text_state_retry">Retry</string>
     <string name="back_to_search">Back to Search</string>
+    <string name="back">Back</string>
+    <string name="overview">Overview</string>
+    <string name="you_rated_this">You rated this</string>
+    <string name="go_to_favorites">Go to favourites</string>
+    <string name="my_favorites">My favourites</string>
+    <string name="my_rating">My Rating</string>
+    <string name="search_for_more">Search for More</string>
+    <string name="zero">0</string>
 </resources>

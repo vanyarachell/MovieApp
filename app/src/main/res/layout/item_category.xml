@@ -17,20 +17,19 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/bg_rounded_grey"
         android:padding="@dimen/dp16">
 
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_movie_title"
+                style="@style/InterSmallGrey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/inter_bold"
                 android:text="@{category}"
-                android:textColor="@color/black"
-                android:textSize="@dimen/sp20"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="@string/movie_title" />
+                tools:text="@string/movie_genre" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="InterBoldBig" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/sp20</item>
+        <item name="fontFamily">@font/inter_bold</item>
+    </style>
+
+    <style name="InterBoldMedium" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/sp18</item>
+        <item name="fontFamily">@font/inter_bold</item>
+    </style>
+
+    <style name="InterBoldSmall" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/sp14</item>
+        <item name="fontFamily">@font/inter_bold</item>
+    </style>
+
+    <style name="InterSmallGrey" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/dark_grey</item>
+        <item name="android:textSize">@dimen/sp14</item>
+        <item name="fontFamily">@font/inter_regular</item>
+    </style>
+
+    <style name="InterSmallWhite" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/sp12</item>
+        <item name="fontFamily">@font/inter_regular</item>
+    </style>
+
+    <style name="InterSmallBlack" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/sp14</item>
+        <item name="fontFamily">@font/inter_regular</item>
+    </style>
+
+    <style name="JomhuriaHeaderWhite" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/sp60</item>
+        <item name="fontFamily">@font/jomhuria_regular</item>
+    </style>
+
+    <style name="JomhuriaHeaderGreen" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/dark_green</item>
+        <item name="android:textSize">@dimen/sp60</item>
+        <item name="fontFamily">@font/jomhuria_regular</item>
+    </style>
+
+    <style name="JomhuriaSmall" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/sp40</item>
+        <item name="fontFamily">@font/jomhuria_regular</item>
+    </style>
+
+    <style name="ButtonDefault" parent="InterSmallBlack">
+        <item name="android:layout_width">@dimen/dp277</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/dp16</item>
+    </style>
+</resources>

@@ -12,6 +12,7 @@
         <variable
             name="movie"
             type="com.vanya.movieapp.model.Movie" />
+
         <variable
             name="childAdapter"
             type="com.vanya.movieapp.ui.home.ChildAdapter" />
@@ -43,49 +44,41 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_movie_title"
+                style="@style/InterBoldBig"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/inter_bold"
                 android:text="@{movie.title}"
-                android:textColor="@color/black"
-                android:textSize="@dimen/sp20"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="@string/movie_title" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_movie_year"
+                style="@style/InterSmallGrey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/inter_regular"
                 android:text="@{movie.yearRelease()}"
-                android:textColor="@color/dark_grey"
-                android:textSize="@dimen/sp14"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_movie_title"
                 tools:text="@string/movie_year" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_movie_rating"
+                style="@style/InterBoldSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp8"
-                android:fontFamily="@font/inter_bold"
                 android:text="@{movie.percentageScore()}"
-                android:textColor="@color/black"
-                android:textSize="@dimen/sp14"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_movie_year" />
 
             <com.google.android.material.textview.MaterialTextView
+                style="@style/InterSmallBlack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp8"
                 android:layout_marginTop="@dimen/dp8"
-                android:fontFamily="@font/inter_regular"
                 android:text="@string/user_score"
-                android:textColor="@color/black"
-                android:textSize="@dimen/sp14"
                 app:layout_constraintStart_toEndOf="@id/tv_movie_rating"
                 app:layout_constraintTop_toBottomOf="@id/tv_movie_year" />
 
@@ -94,9 +87,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp8"
+                android:adapter="@{childAdapter}"
                 android:orientation="horizontal"
                 android:scrollbars="horizontal"
-                android:adapter="@{childAdapter}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@id/tv_movie_rating"
                 tools:itemCount="3" />
