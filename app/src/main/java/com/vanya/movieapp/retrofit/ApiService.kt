@@ -12,7 +12,7 @@ import retrofit2.http.Query
  * vanyarachel05@gmail.com
  */
 interface ApiService {
-    @GET("discover/movie")
+    @GET("movie/popular")
     fun getMovies(
         @Header("Authorization") authorization: String,
         @Query("page") currentPage: Int,

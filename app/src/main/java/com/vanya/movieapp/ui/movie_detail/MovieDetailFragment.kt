@@ -1,5 +1,6 @@
 package com.vanya.movieapp.ui.movie_detail
 
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -37,6 +38,21 @@ class MovieDetailFragment : Fragment() {
             navigationArgs.movie.releaseDate,
             Toast.LENGTH_SHORT
         ).show()
+
+        with(binding) {
+            movie = navigationArgs.movie
+
+            pb.apply {
+                movie?.let {
+                    max = 100
+                    ObjectAnimator.ofInt(pb, "progress", it.percentageScoreWithoutSymbol())
+                        .setDuration(2000)
+                        .start()
+                }
+            }
+        }
+
+
         return root
     }
 

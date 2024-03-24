@@ -48,7 +48,7 @@ data class Movie(
 
     @Json(name = "vote_count")
     val voteCount: Int? = null
-):Parcelable {
+) : Parcelable {
 
     //release date ex
     //2024-02-14
@@ -60,5 +60,10 @@ data class Movie(
         return "${average?.toInt()}%"
     }
 
-    fun fullPathUrl() : String = "https://image.tmdb.org/t/p/w342$posterPath"
+    fun percentageScoreWithoutSymbol(): Int {
+        return (voteAverage?.times(10) ?: 0.0).toInt()
+    }
+
+    fun fullPathUrl(): String = "https://image.tmdb.org/t/p/w342$posterPath"
+    fun fullBackdropUrl(): String = "https://image.tmdb.org/t/p/w342$backdropPath"
 }
