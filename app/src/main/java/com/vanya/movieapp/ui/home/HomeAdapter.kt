@@ -1,5 +1,7 @@
 package com.vanya.movieapp.ui.home
 
+import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -12,10 +14,10 @@ import com.vanya.movieapp.model.Movie
  * Created by vanyarachell on Sun, 24 Mar 2024
  * vanyarachel05@gmail.com
  */
-class HomeAdapter : RecyclerView.Adapter<HomeAdapter.ItemViewHolder>() {
+class HomeAdapter constructor(val listGenre: List<GenresItem>, val onClick: (Movie) -> Unit) :
+    RecyclerView.Adapter<HomeAdapter.ItemViewHolder>() {
 
-    private val listItem = arrayListOf<Movie>()
-    private var mListGenre = listOf<GenresItem>()
+    private val listItem = mutableListOf<Movie>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         return ItemViewHolder(
@@ -32,21 +34,26 @@ class HomeAdapter : RecyclerView.Adapter<HomeAdapter.ItemViewHolder>() {
 
     override fun getItemCount() = listItem.size
 
-    fun updateData(list: ArrayList<Movie>, genreList: List<GenresItem>) {
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateData(list: List<Movie>) {
         listItem.clear()
         listItem.addAll(list)
-        notifyItemRangeChanged(0, list.size)
-        mListGenre = genreList
+        notifyDataSetChanged()
     }
 
     inner class ItemViewHolder(private val binding: ItemMovieBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Movie) {
             binding.movie = item
-            val mChildAdapter = ChildAdapter()
+            Log.e("GENRE ", "==== SIZE GENRE ${listGenre.size}")
+            binding.container.setOnClickListener {
+                onClick(item)
+            }
+
+            val mChildAdapter = ChildAdapter(listGenre)
             binding.childAdapter = mChildAdapter
             item.genreIds?.let {
-                mChildAdapter.updateData(mListGenre, it)
+                mChildAdapter.updateData(it)
             }
         }
     }
