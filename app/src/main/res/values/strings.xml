@@ -2,6 +2,7 @@
     <string name="app_name">MovieApp</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
+    <string name="title_detail">Detail</string>
     <string name="title_notifications">Notifications</string>
     <string name="popular_right_now">Popular Right Now</string>
     <string name="search">Search</string>

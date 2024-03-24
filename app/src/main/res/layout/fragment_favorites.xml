@@ -50,7 +50,6 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/dp16"
         android:layout_marginTop="@dimen/dp8"
-        android:adapter="@{childAdapter}"
         android:orientation="horizontal"
         android:scrollbars="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

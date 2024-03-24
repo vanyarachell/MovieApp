@@ -1,7 +1,10 @@
 package com.vanya.movieapp.model
 
+import android.os.Parcelable
 import com.squareup.moshi.Json
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Movie(
 
     @Json(name = "overview")
@@ -45,7 +48,7 @@ data class Movie(
 
     @Json(name = "vote_count")
     val voteCount: Int? = null
-) {
+):Parcelable {
 
     //release date ex
     //2024-02-14

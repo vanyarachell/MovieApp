@@ -1,7 +1,9 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id ("kotlin-kapt")
+    id("kotlin-kapt")
+    id("androidx.navigation.safeargs.kotlin")
+    id("org.jetbrains.kotlin.plugin.parcelize")
 }
 
 android {
@@ -54,11 +56,10 @@ dependencies {
     implementation("com.airbnb.android:lottie:5.2.0")
 
     // retrofit
-    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation ("com.squareup.retrofit2:converter-moshi:2.9.0")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
 
-    implementation ("com.squareup.moshi:moshi-kotlin:1.13.0")
+    implementation("com.squareup.moshi:moshi-kotlin:1.13.0")
 
-    implementation ("com.github.bumptech.glide:glide:4.16.0")
-
+    implementation("com.github.bumptech.glide:glide:4.16.0")
 }

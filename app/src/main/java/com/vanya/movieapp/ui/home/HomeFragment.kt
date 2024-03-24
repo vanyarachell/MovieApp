@@ -7,8 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
+import com.vanya.movieapp.R
 import com.vanya.movieapp.databinding.FragmentHomeBinding
 import com.vanya.movieapp.model.GenreResponse
 import com.vanya.movieapp.model.GenresItem
@@ -163,9 +167,10 @@ class HomeFragment : Fragment() {
                 onClick = {
                     it.id?.let { id ->
                         Toast.makeText(this@HomeFragment.context, id.toString(), Toast.LENGTH_SHORT).show()
+                        findNavController().navigate(HomeFragmentDirections.actionNavigationHomeToNavigationDetail(it))
                     }
                 })
-            rv.adapter = mAdapter
+            rvMovies.adapter = mAdapter
         }
     }
 }
