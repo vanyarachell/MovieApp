@@ -39,12 +39,11 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
+            ViewModelProvider(this)[HomeViewModel::class.java]
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 
-        return root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -61,7 +60,7 @@ class HomeFragment : Fragment() {
 
 
                 response.body()?.results?.let { listGame ->
-                    Log.e(TAG, "${listGame}")
+                    Log.e(TAG, "$listGame")
 
                     for (game in listGame) {
                         Log.e(TAG, "${game.id}")
