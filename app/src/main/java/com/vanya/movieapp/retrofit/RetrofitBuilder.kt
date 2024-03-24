@@ -12,7 +12,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 
 object RetrofitBuilder {
-    private const val BASE_URL = "https://api.themoviedb.org/3/discover/"
+    private const val BASE_URL = "https://api.themoviedb.org/3/"
     private val moshi = Moshi.Builder()
         // ... add your own JsonAdapters and factories ...
         // for parsing object inside arrayobject if not use, its gonna make object null
