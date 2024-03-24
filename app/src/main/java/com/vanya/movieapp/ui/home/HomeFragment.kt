@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.vanya.movieapp.databinding.FragmentHomeBinding
+import com.vanya.movieapp.model.GenreResponse
+import com.vanya.movieapp.model.GenresItem
 import com.vanya.movieapp.model.Movie
 import com.vanya.movieapp.model.MovieResponse
 import com.vanya.movieapp.retrofit.RetrofitBuilder
@@ -18,7 +20,8 @@ import retrofit2.Response
 class HomeFragment : Fragment() {
     companion object {
         private const val TAG = "FIRST FRAGMENT => "
-        private const val TOKEN = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4YmMzODExNGYxN2E4ZTMwMDJhNWUxNTFiMWFjMmJkYSIsInN1YiI6IjU3MjI0ZGVlYzNhMzY4MmQxZTAwMDA3MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.3eFEU9Ajy3WJAlKDXTV3hVNEc7Al4QJMjRIcx9N9HUo"
+        private const val TOKEN =
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4YmMzODExNGYxN2E4ZTMwMDJhNWUxNTFiMWFjMmJkYSIsInN1YiI6IjU3MjI0ZGVlYzNhMzY4MmQxZTAwMDA3MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.3eFEU9Ajy3WJAlKDXTV3hVNEc7Al4QJMjRIcx9N9HUo"
     }
 
     private var _binding: FragmentHomeBinding? = null
@@ -32,6 +35,8 @@ class HomeFragment : Fragment() {
     }
 
     private val movieList = arrayListOf<Movie>()
+
+    private var mListGenres = listOf<GenresItem>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,8 +59,38 @@ class HomeFragment : Fragment() {
             }
         }
 
-        val repos = RetrofitBuilder.service.getGames(TOKEN, 1)
-        repos?.enqueue(object : Callback<MovieResponse> {
+        getGenres()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun getGenres() {
+        val repoGenres = RetrofitBuilder.service.getGenres(TOKEN)
+        repoGenres?.enqueue(object : Callback<GenreResponse> {
+            override fun onResponse(call: Call<GenreResponse>, response: Response<GenreResponse>) {
+                response.body()?.genres?.let { listGenres ->
+                    Log.e(TAG, "$listGenres")
+
+                    for (genre in listGenres) {
+                        Log.e(TAG, "${genre.id}")
+                    }
+                    mListGenres = listGenres
+                    getMovies()
+                }
+            }
+
+            override fun onFailure(call: Call<GenreResponse>, t: Throwable) {
+                Log.e(TAG, "${t.message}")
+            }
+        })
+    }
+
+    private fun getMovies() {
+        val repoMovies = RetrofitBuilder.service.getMovies(TOKEN, 1)
+        repoMovies?.enqueue(object : Callback<MovieResponse> {
             override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
 
 
@@ -67,7 +102,7 @@ class HomeFragment : Fragment() {
                     }
 
                     movieList.addAll(listGame)
-                    mAdapter.updateData(movieList)
+                    mAdapter.updateData(movieList, mListGenres)
                 }
             }
 
@@ -77,8 +112,4 @@ class HomeFragment : Fragment() {
         })
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }
