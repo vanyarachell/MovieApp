@@ -12,6 +12,9 @@
         <variable
             name="movie"
             type="com.vanya.movieapp.model.Movie" />
+        <variable
+            name="childAdapter"
+            type="com.vanya.movieapp.ui.home.ChildAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -54,7 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_regular"
-                android:text="@{movie.releaseDate}"
+                android:text="@{movie.yearRelease()}"
                 android:textColor="@color/dark_grey"
                 android:textSize="@dimen/sp14"
                 app:layout_constraintStart_toStartOf="parent"
@@ -67,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp8"
                 android:fontFamily="@font/inter_bold"
-                android:text="@string/movie_rating"
+                android:text="@{movie.percentageScore()}"
                 android:textColor="@color/black"
                 android:textSize="@dimen/sp14"
                 app:layout_constraintStart_toStartOf="parent"
@@ -92,6 +95,7 @@
                 android:layout_marginTop="@dimen/dp8"
                 android:orientation="horizontal"
                 android:scrollbars="horizontal"
+                android:adapter="@{childAdapter}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@id/tv_movie_rating"
                 tools:itemCount="3" />
