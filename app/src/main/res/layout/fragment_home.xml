@@ -11,14 +11,6 @@
         <variable
             name="vm"
             type="com.vanya.movieapp.ui.home.HomeViewModel" />
-
-        <!--        <variable
-                    name="adapter"
-                    type="com.don.storyApp.presentation.stories.StoriesAdapter" />-->
-
-        <variable
-            name="adapter"
-            type="com.vanya.movieapp.ui.home.HomeAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -67,7 +59,7 @@
             android:id="@+id/rv_movies"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp0"
-            android:adapter="@{adapter}"
+            android:nestedScrollingEnabled="false"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"

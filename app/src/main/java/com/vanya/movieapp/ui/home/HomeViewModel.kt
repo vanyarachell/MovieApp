@@ -55,7 +55,7 @@ class HomeViewModel @Inject constructor(private val movieRepository: MovieReposi
                     val oldMovies = popularMovieResponse?.results
                     val newArticles = resultResponse.results
                     newArticles?.let {
-                        oldMovies?.plus(it)
+                        oldMovies?.addAll(it)
                     }
                 }
                 return Resource.Success(popularMovieResponse ?: resultResponse)

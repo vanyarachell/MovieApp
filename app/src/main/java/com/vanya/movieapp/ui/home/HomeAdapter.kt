@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.vanya.movieapp.R
 import com.vanya.movieapp.databinding.ItemMovieBinding
@@ -19,9 +21,20 @@ class HomeAdapter(
 ) :
     RecyclerView.Adapter<HomeAdapter.ItemViewHolder>() {
 
-    private var listMovie = arrayListOf<Movie>()
+//    private var listMovie = arrayListOf<Movie>()
     private var mListGenre = listOf<Genre>()
 
+    private val differCallback = object : DiffUtil.ItemCallback<Movie>() {
+        override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+            return oldItem == newItem
+        }
+    }
+
+    val differ = AsyncListDiffer(this, differCallback)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         return ItemViewHolder(
             ItemMovieBinding.bind(
@@ -32,24 +45,38 @@ class HomeAdapter(
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.bind(listMovie[position])
+        val article = differ.currentList[position]
+        holder.bind(article)
     }
 
-    override fun getItemCount() = listMovie.size
+    override fun getItemCount() = differ.currentList.size
 
-    @SuppressLint("NotifyDataSetChanged")
+    override fun getItemId(position: Int): Long {
+        return super.getItemId(position)
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return super.getItemViewType(position)
+    }
+
+
+/*    @SuppressLint("NotifyDataSetChanged")
     fun updateData(movieList: List<Movie>, listGenre: List<Genre>) {
         listMovie.clear()
         listMovie.addAll(movieList)
         mListGenre = listGenre
         notifyDataSetChanged()
+    }*/
+        @SuppressLint("NotifyDataSetChanged")
+    fun updateGenre(listGenre: List<Genre>) {
+        mListGenre = listGenre
     }
 
     inner class ItemViewHolder(private val binding: ItemMovieBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Movie) {
             binding.movie = item
-            Log.e("GENRE ", "==== SIZE GENRE ${mListGenre.size}")
+//            Log.e("GENRE ", "==== SIZE GENRE ${mListGenre.size}")
             binding.container.setOnClickListener {
                 onClick(item)
             }

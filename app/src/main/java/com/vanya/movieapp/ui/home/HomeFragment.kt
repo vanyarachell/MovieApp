@@ -5,14 +5,19 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AbsListView
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.vanya.movieapp.R
 import com.vanya.movieapp.databinding.FragmentHomeBinding
 import com.vanya.movieapp.model.Genre
+import com.vanya.movieapp.util.Constants
+import com.vanya.movieapp.util.Constants.Companion.QUERY_PAGE_SIZE
 import com.vanya.movieapp.util.Resource
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -58,7 +63,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         binding?.apply {
             lifecycleOwner = this@HomeFragment.viewLifecycleOwner
             vm = mViewModel
-            adapter = mAdapter
         }
 
         return binding?.root
@@ -66,7 +70,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding?.rvMovies?.adapter = mAdapter
+        setupRecyclerView()
         binding?.apply {
             mViewModel.getGenreList()
             searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -100,6 +104,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     }
                     hideProgressBar()
                     hideErrorMessage()
+
+                    // update  genre
+                    mAdapter.updateGenre(listGenres)
+
                     mViewModel.getPopularMovies()
                 }
 
@@ -121,15 +129,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     hideProgressBar()
                     hideErrorMessage()
                     response.data?.let { movieResponse ->
-                        movieResponse.results?.let {
-                            mAdapter.updateData(it, listGenres)
-                            Log.e(" ==== MOVIE LIST", it.size.toString())
+                        mAdapter.differ.submitList(movieResponse.results?.toList())
+                        val totalPages = movieResponse.totalResults / QUERY_PAGE_SIZE + 2
+                        isLastPage = mViewModel.moviePage == totalPages
+                        if (isLastPage) {
+                            binding?.rvMovies?.setPadding(0, 0, 0, 0)
                         }
-                        /*       val totalPages = movieResponse.totalResults / QUERY_PAGE_SIZE + 2
-                               isLastPage = mViewModel.moviePage == totalPages
-                               if(isLastPage) {
-                                   binding.rvMovies.setPadding(0, 0, 0, 0)
-                               }*/
                     }
                 }
 
@@ -178,5 +183,43 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         binding?.itemErrorMessage?.cvError?.visibility = View.VISIBLE
         binding?.itemErrorMessage?.tvErrorMessage?.text = message
         isError = true
+    }
+
+    private val scrollListener = object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+
+            val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+            val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+            val visibleItemCount = layoutManager.childCount
+            val totalItemCount = layoutManager.itemCount
+
+            val isNoErrors = !isError
+            val isNotLoadingAndNotLastPage = !isLoading && !isLastPage
+            val isAtLastItem = firstVisibleItemPosition + visibleItemCount >= totalItemCount
+            val isNotAtBeginning = firstVisibleItemPosition >= 0
+            val isTotalMoreThanVisible = totalItemCount >= Constants.QUERY_PAGE_SIZE
+            val shouldPaginate =
+                isNoErrors && isNotLoadingAndNotLastPage && isAtLastItem && isNotAtBeginning &&
+                        isTotalMoreThanVisible && isScrolling
+            if (shouldPaginate) {
+                mViewModel.getPopularMovies()
+                isScrolling = false
+            }
+        }
+
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+            super.onScrollStateChanged(recyclerView, newState)
+            if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                isScrolling = true
+            }
+        }
+    }
+
+    private fun setupRecyclerView() {
+        binding?.rvMovies?.apply {
+            adapter = mAdapter
+            addOnScrollListener(scrollListener)
+        }
     }
 }
