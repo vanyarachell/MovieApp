@@ -7,18 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.vanya.movieapp.databinding.FragmentMovieDetailBinding
-import com.vanya.movieapp.ui.dashboard.DashboardViewModel
 
 class MovieDetailFragment : Fragment() {
 
-    private var _binding: FragmentMovieDetailBinding? = null
+    //    private var _binding: FragmentMovieDetailBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+    private var binding: FragmentMovieDetailBinding? = null
 
     private val navigationArgs: MovieDetailFragmentArgs by navArgs()
 
@@ -26,22 +23,21 @@ class MovieDetailFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        val dashboardViewModel =
-            ViewModelProvider(this)[DashboardViewModel::class.java]
+    ): View? {
 
-        _binding = FragmentMovieDetailBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        binding = FragmentMovieDetailBinding.inflate(inflater, container, false)
 
-        Toast.makeText(
-            this@MovieDetailFragment.context,
-            navigationArgs.movie.releaseDate,
-            Toast.LENGTH_SHORT
-        ).show()
+        binding?.apply {
 
-        with(binding) {
             movie = navigationArgs.movie
 
+            Toast.makeText(
+                this@MovieDetailFragment.context,
+                navigationArgs.movie.releaseDate,
+                Toast.LENGTH_SHORT
+            ).show()
+
+            // add animation to progressHorizontal
             pb.apply {
                 movie?.let {
                     max = 100
@@ -51,13 +47,18 @@ class MovieDetailFragment : Fragment() {
                 }
             }
         }
+        return binding?.root
+    }
 
-
-        return root
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding?.btnFav?.setOnClickListener {
+            findNavController().navigate(MovieDetailFragmentDirections.actionNavigationDetailToFavorite())
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        binding = null
     }
 }
