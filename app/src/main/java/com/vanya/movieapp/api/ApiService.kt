@@ -31,7 +31,7 @@ interface ApiService {
 
      val response = client.newCall(request).execute()*/
     @GET("genre/movie/list")
-   suspend fun getGenres(
+    suspend fun getGenres(
         @Header("Authorization") authorization: String
     ): Response<GenreResponse>
 
@@ -48,7 +48,7 @@ interface ApiService {
      val response = client.newCall(request).execute()*/
 
     @GET("search/movie")
-   suspend fun searchMovie(
+    suspend fun searchMovie(
         @Header("Authorization") authorization: String,
         @Query("query") query: String,
     ): Call<MovieResponse>?

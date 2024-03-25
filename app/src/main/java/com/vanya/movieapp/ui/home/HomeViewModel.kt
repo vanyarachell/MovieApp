@@ -22,7 +22,8 @@ class HomeViewModel @Inject constructor(private val movieRepository: MovieReposi
 
     val genreList: MutableLiveData<Resource<GenreResponse>> = MutableLiveData()
 
-    val TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4YmMzODExNGYxN2E4ZTMwMDJhNWUxNTFiMWFjMmJkYSIsInN1YiI6IjU3MjI0ZGVlYzNhMzY4MmQxZTAwMDA3MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.3eFEU9Ajy3WJAlKDXTV3hVNEc7Al4QJMjRIcx9N9HUo"
+    val TOKEN =
+        "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4YmMzODExNGYxN2E4ZTMwMDJhNWUxNTFiMWFjMmJkYSIsInN1YiI6IjU3MjI0ZGVlYzNhMzY4MmQxZTAwMDA3MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.3eFEU9Ajy3WJAlKDXTV3hVNEc7Al4QJMjRIcx9N9HUo"
 
     fun getPopularMovies() = viewModelScope.launch {
         safePopularMoviesCall()
@@ -54,7 +55,7 @@ class HomeViewModel @Inject constructor(private val movieRepository: MovieReposi
                     val oldMovies = popularMovieResponse?.results
                     val newArticles = resultResponse.results
                     newArticles?.let {
-                        oldMovies?.addAll(it)
+                        oldMovies?.plus(it)
                     }
                 }
                 return Resource.Success(popularMovieResponse ?: resultResponse)

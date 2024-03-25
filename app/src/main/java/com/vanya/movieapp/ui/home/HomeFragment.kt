@@ -9,14 +9,12 @@ import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.vanya.movieapp.R
 import com.vanya.movieapp.databinding.FragmentHomeBinding
 import com.vanya.movieapp.model.Genre
 import com.vanya.movieapp.util.Resource
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -68,7 +66,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding?.rvMovies?.adapter  = mAdapter
+        binding?.rvMovies?.adapter = mAdapter
         binding?.apply {
             mViewModel.getGenreList()
             searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -124,7 +122,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     hideErrorMessage()
                     response.data?.let { movieResponse ->
                         movieResponse.results?.let {
-                                mAdapter.updateData(it, listGenres)
+                            mAdapter.updateData(it, listGenres)
                             Log.e(" ==== MOVIE LIST", it.size.toString())
                         }
                         /*       val totalPages = movieResponse.totalResults / QUERY_PAGE_SIZE + 2

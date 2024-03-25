@@ -35,7 +35,8 @@ fun ImageView.loadImage(
     centerCrop: Boolean = false,
     transition: Boolean = false,
     @DrawableRes placeholder: Int? = null,
-    @DrawableRes error: Int? = null) {
+    @DrawableRes error: Int? = null
+) {
 
     when (any) {
         is String, is Bitmap, is Int, is URL, is File, is ByteArray -> {
@@ -67,6 +68,7 @@ fun ImageView.loadImage(
         }
     }
 }
+
 @BindingAdapter("srcImage")
 fun loadAnyImage(view: ImageView, image: Any?) {
     image?.let { view.loadImage(it) }

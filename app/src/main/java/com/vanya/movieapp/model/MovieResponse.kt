@@ -1,18 +1,18 @@
 package com.vanya.movieapp.model
 
-import com.squareup.moshi.Json
+import com.google.gson.annotations.SerializedName
 
 data class MovieResponse(
 
-    @Json(name="page")
-	val page: Int? = null,
+    @field:SerializedName("page")
+    val page: Int? = null,
 
-    @Json(name="total_pages")
-	val totalPages: Int? = null,
+    @field:SerializedName("total_pages")
+    val totalPages: Int? = null,
 
-    @Json(name="results")
-	val results: ArrayList<Movie>? = null,
+    @field:SerializedName("results")
+    val results: List<Movie>? = null,
 
-    @Json(name="total_results")
-	val totalResults: Int
+    @field:SerializedName("total_results")
+    val totalResults: Int? = null
 )

@@ -1,9 +1,9 @@
 package com.vanya.movieapp.model
 
-import com.squareup.moshi.Json
+import com.google.gson.annotations.SerializedName
 
 data class GenreResponse(
 
-	@Json(name="genres")
-	val genres: List<Genre>? = null
+    @field:SerializedName("genres")
+    val genres: List<Genre>? = null
 )

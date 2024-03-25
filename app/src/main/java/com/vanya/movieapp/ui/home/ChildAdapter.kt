@@ -11,7 +11,8 @@ import com.vanya.movieapp.model.Genre
  * Created by vanyarachell on Sun, 24 Mar 2024
  * vanyarachel05@gmail.com
  */
-class ChildAdapter constructor(private val listGenre: List<Genre>) : RecyclerView.Adapter<ChildAdapter.ItemViewHolder>() {
+class ChildAdapter constructor(private val listGenre: List<Genre>) :
+    RecyclerView.Adapter<ChildAdapter.ItemViewHolder>() {
 
     private val listItem = arrayListOf<String>()
 
