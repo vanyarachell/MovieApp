@@ -1,82 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.home.HomeFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbar_home"
+    <data>
+
+
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="com.vanya.movieapp.ui.home.HomeViewModel" />
+
+        <!--        <variable
+                    name="adapter"
+                    type="com.don.storyApp.presentation.stories.StoriesAdapter" />-->
+
+        <variable
+            name="adapter"
+            type="com.vanya.movieapp.ui.home.HomeAdapter" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints">
+        android:layout_height="match_parent"
+        tools:context=".ui.home.HomeFragment">
 
-        <com.google.android.material.appbar.MaterialToolbar
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar_home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/light_green"
-            android:paddingTop="@dimen/dp48"
-            android:paddingEnd="@dimen/dp16"
-            tools:ignore="RtlSymmetry">
+            tools:ignore="MissingConstraints">
 
-            <LinearLayout
+            <com.google.android.material.appbar.MaterialToolbar
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:background="@color/light_green"
+                android:paddingTop="@dimen/dp48"
+                android:paddingEnd="@dimen/dp16"
+                tools:ignore="RtlSymmetry">
 
-                <androidx.appcompat.widget.SearchView
-                    android:id="@+id/search_view"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_rounded_white"
-                    android:hint="@string/search" />
+                    android:orientation="vertical">
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tv_title_home"
-                    style="@style/JomhuriaHeaderGreen"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/popular_right_now" />
+                    <androidx.appcompat.widget.SearchView
+                        android:id="@+id/search_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_rounded_white"
+                        android:hint="@string/search" />
 
-            </LinearLayout>
-        </com.google.android.material.appbar.MaterialToolbar>
-    </com.google.android.material.appbar.AppBarLayout>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_title_home"
+                        style="@style/JomhuriaHeaderGreen"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/popular_right_now" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_movies"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp0"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/appbar_home"
-        tools:itemCount="3"
-        tools:listitem="@layout/item_movie" />
+                </LinearLayout>
+            </com.google.android.material.appbar.MaterialToolbar>
+        </com.google.android.material.appbar.AppBarLayout>
 
-    <include
-        android:id="@+id/itemErrorMessage"
-        layout="@layout/item_error"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_movies"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp0"
+            android:adapter="@{adapter}"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/appbar_home"
+            tools:itemCount="3"
+            tools:listitem="@layout/item_movie" />
 
-    <ProgressBar
-        android:id="@+id/paginationProgressBar"
-        style="?attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        android:background="@android:color/transparent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <include
+            android:id="@+id/itemErrorMessage"
+            layout="@layout/item_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/paginationProgressBar"
+            style="?attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

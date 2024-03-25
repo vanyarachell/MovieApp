@@ -24,11 +24,31 @@
         <argument
             android:name="movie"
             app:argType="com.vanya.movieapp.model.Movie" />
+
+        <action
+            android:id="@+id/action_navigation_detail_to_rated"
+            app:destination="@id/navigation_rated"/>
+
+        <action
+            android:id="@+id/action_navigation_detail_to_favorite"
+            app:destination="@id/navigation_favorite"/>
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.vanya.movieapp.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_rated"
+        android:name="com.vanya.movieapp.ui.movie_rated.MovieRatedFragment"
+        android:label="@string/title_rated"
+        tools:layout="@layout/fragment_movie_rated">
+
+        <action
+            android:id="@+id/action_navigation_rated_to_favorite"
+            app:destination="@id/navigation_favorite"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_favorite"
+        android:name="com.vanya.movieapp.ui.favorites.FragmentFavorites"
+        android:label="@string/my_favorites"
+        tools:layout="@layout/fragment_favorites" />
 </navigation>

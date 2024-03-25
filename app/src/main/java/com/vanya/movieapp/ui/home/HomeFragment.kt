@@ -2,17 +2,21 @@ package com.vanya.movieapp.ui.home
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.vanya.movieapp.R
 import com.vanya.movieapp.databinding.FragmentHomeBinding
-import com.vanya.movieapp.model.GenresItem
+import com.vanya.movieapp.model.Genre
 import com.vanya.movieapp.util.Resource
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -20,31 +24,56 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         private const val TAG = "FIRST FRAGMENT => "
     }
 
-    private var _binding: FragmentHomeBinding? = null
-    private val binding: FragmentHomeBinding
-        get() = _binding!!
+    private var binding: FragmentHomeBinding? = null
 
-    private lateinit var mAdapter: HomeAdapter
-//    private lateinit var mViewModel: HomeViewModel
 
     private val mViewModel by viewModels<HomeViewModel>()
 
+    private var listGenres = listOf<Genre>()
 
-    var isError = false
-    var isLoading = false
-    var isLastPage = false
+    private val mAdapter by lazy {
+        HomeAdapter(
+            onClick = {
+                it.id?.let { id ->
+                    Toast.makeText(this@HomeFragment.context, id.toString(), Toast.LENGTH_SHORT)
+                        .show()
+                    findNavController().navigate(
+                        HomeFragmentDirections.actionNavigationHomeToNavigationDetail(
+                            it
+                        )
+                    )
+                }
+            })
+    }
+
+    private var isError = false
+    private var isLoading = false
+    private var isLastPage = false
     var isScrolling = false
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        binding?.apply {
+            lifecycleOwner = this@HomeFragment.viewLifecycleOwner
+            vm = mViewModel
+            adapter = mAdapter
+        }
+
+        return binding?.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding = FragmentHomeBinding.bind(view)
-
-        mViewModel.getGenreList()
-        binding.apply {
-
+        binding?.rvMovies?.adapter  = mAdapter
+        binding?.apply {
+            mViewModel.getGenreList()
             searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
-                    Log.e("my onQueryTextSubmit", "===== ${query}")
+                    Log.e("my onQueryTextSubmit", "===== $query")
 
                     query?.let {
 //                        doSearch(it)
@@ -54,28 +83,35 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
-                    Log.e("my onQueryTextChange", "===== ${newText}")
+                    Log.e("my onQueryTextChange", "===== $newText")
                     return false
                 }
 
             })
 
-        }
 
+        }
 
         mViewModel.genreList.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Success -> {
+                    Log.e(" ==== GENRE LIST", "SUCCESS")
+                    response.data?.genres?.toList()?.let {
+                        listGenres = it
+                        Log.e(" ==== GENRE LIST", listGenres.size.toString())
+                    }
                     hideProgressBar()
                     hideErrorMessage()
                     mViewModel.getPopularMovies()
                 }
 
                 is Resource.Error -> {
+                    Log.e(" ==== GENRE LIST", "ERROR")
                     hideProgressBar()
                 }
 
                 is Resource.Loading -> {
+                    Log.e(" ==== GENRE LIST", "LOADING")
                     showProgressBar()
                 }
             }
@@ -84,14 +120,36 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         mViewModel.popularMovies.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Success -> {
-
+                    hideProgressBar()
+                    hideErrorMessage()
+                    response.data?.let { movieResponse ->
+                        movieResponse.results?.let {
+                                mAdapter.updateData(it, listGenres)
+                            Log.e(" ==== MOVIE LIST", it.size.toString())
+                        }
+                        /*       val totalPages = movieResponse.totalResults / QUERY_PAGE_SIZE + 2
+                               isLastPage = mViewModel.moviePage == totalPages
+                               if(isLastPage) {
+                                   binding.rvMovies.setPadding(0, 0, 0, 0)
+                               }*/
+                    }
                 }
 
                 is Resource.Error -> {
+                    Log.e(" ==== MOVIE LIST", "ERROR")
 
+                    hideProgressBar()
+                    response.message?.let { message ->
+                        Toast.makeText(activity, "An error occured: $message", Toast.LENGTH_LONG)
+                            .show()
+                        showErrorMessage(message)
+                    }
                 }
 
                 is Resource.Loading -> {
+                    Log.e(" ==== MOVIE LIST", "LOADING")
+
+                    showProgressBar()
 
                 }
             }
@@ -100,126 +158,27 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        binding = null
     }
 
-    /*private fun getGenres() {
-        val repoGenres = RetrofitBuilder.service.getGenres(TOKEN)
-        repoGenres?.enqueue(object : Callback<GenreResponse> {
-            override fun onResponse(call: Call<GenreResponse>, response: Response<GenreResponse>) {
-                response.body()?.genres?.let { listGenres ->
-                    Log.e(TAG, "$listGenres")
-
-                    for (genre in listGenres) {
-                        Log.e(TAG, "${genre.id}")
-                    }
-
-                    if (response.isSuccessful) {
-                        setupAdapter(listGenres)
-                        getMovies()
-                    }
-                }
-            }
-
-            override fun onFailure(call: Call<GenreResponse>, t: Throwable) {
-                Log.e(TAG, "${t.message}")
-            }
-        })
-    }*/
-
-    /* private fun getMovies() {
-         val repoMovies = RetrofitBuilder.service.getMovies(TOKEN, 1)
-         repoMovies?.enqueue(object : Callback<MovieResponse> {
-             override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
-
-
-                 response.body()?.results?.let { listMovies ->
-                     Log.e(TAG, "$listMovies")
-
-                     for (game in listMovies) {
-                         Log.e(TAG, "${game.id}")
-                     }
-                     mAdapter.updateData(listMovies)
-                 }
-             }
-
-             override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
-                 Log.e(TAG, "${t.message}")
-             }
-         })
-     }*/
-
-    /*  private fun doSearch(query: String) {
-          val repoMovies = RetrofitBuilder.service.searchMovie(TOKEN, query)
-          repoMovies?.enqueue(object : Callback<MovieResponse> {
-              override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
-
-
-                  response.body()?.results?.let { listSearch ->
-                      Log.e(TAG, "$listSearch")
-
-                      for (movie in listSearch) {
-                          Log.e(TAG, "${movie.id}")
-                      }
-
-                      Log.e(TAG, "==== UKURAN ${listSearch.size}")
-
-                      if (listSearch.isNotEmpty()) {
-                          mAdapter.updateData(listSearch)
-                      } else {
-                          Toast.makeText(
-                              this@HomeFragment.context,
-                              "Movie Not Found",
-                              Toast.LENGTH_SHORT
-                          ).show()
-                      }
-                  }
-              }
-
-              override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
-                  Log.e(TAG, "${t.message}")
-              }
-          })
-      }*/
-
-
     private fun hideProgressBar() {
-        binding.paginationProgressBar.visibility = View.INVISIBLE
+        binding?.paginationProgressBar?.visibility = View.INVISIBLE
         isLoading = false
     }
 
     private fun showProgressBar() {
-        binding.paginationProgressBar.visibility = View.VISIBLE
+        binding?.paginationProgressBar?.visibility = View.VISIBLE
         isLoading = true
     }
 
     private fun hideErrorMessage() {
-        binding.itemErrorMessage.cvError.visibility = View.INVISIBLE
+        binding?.itemErrorMessage?.cvError?.visibility = View.INVISIBLE
         isError = false
     }
 
     private fun showErrorMessage(message: String) {
-        binding.itemErrorMessage.cvError.visibility = View.VISIBLE
-        binding.itemErrorMessage.tvErrorMessage.text = message
+        binding?.itemErrorMessage?.cvError?.visibility = View.VISIBLE
+        binding?.itemErrorMessage?.tvErrorMessage?.text = message
         isError = true
-    }
-
-    private fun setupAdapter(list: List<GenresItem>) {
-        with(binding) {
-            mAdapter = HomeAdapter(
-                listGenre = list,
-                onClick = {
-                    it.id?.let { id ->
-                        Toast.makeText(this@HomeFragment.context, id.toString(), Toast.LENGTH_SHORT)
-                            .show()
-                        findNavController().navigate(
-                            HomeFragmentDirections.actionNavigationHomeToNavigationDetail(
-                                it
-                            )
-                        )
-                    }
-                })
-            rvMovies.adapter = mAdapter
-        }
     }
 }

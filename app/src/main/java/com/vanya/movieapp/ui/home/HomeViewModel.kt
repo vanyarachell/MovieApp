@@ -6,13 +6,11 @@ import androidx.lifecycle.viewModelScope
 import com.vanya.movieapp.model.GenreResponse
 import com.vanya.movieapp.model.MovieResponse
 import com.vanya.movieapp.repository.MovieRepository
-import com.vanya.movieapp.util.Constants
 import com.vanya.movieapp.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import javax.inject.Inject
-
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val movieRepository: MovieRepository) :
@@ -20,10 +18,9 @@ class HomeViewModel @Inject constructor(private val movieRepository: MovieReposi
 
     val popularMovies: MutableLiveData<Resource<MovieResponse>> = MutableLiveData()
     var moviePage = 1
-    var popularMovieResponse: MovieResponse? = null
+    private var popularMovieResponse: MovieResponse? = null
 
     val genreList: MutableLiveData<Resource<GenreResponse>> = MutableLiveData()
-    var genreListResponse: GenreResponse? = null
 
     val TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4YmMzODExNGYxN2E4ZTMwMDJhNWUxNTFiMWFjMmJkYSIsInN1YiI6IjU3MjI0ZGVlYzNhMzY4MmQxZTAwMDA3MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.3eFEU9Ajy3WJAlKDXTV3hVNEc7Al4QJMjRIcx9N9HUo"
 
@@ -69,7 +66,7 @@ class HomeViewModel @Inject constructor(private val movieRepository: MovieReposi
     private fun handleGenresResponse(response: Response<GenreResponse>): Resource<GenreResponse> {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
-                return Resource.Success(genreListResponse ?: resultResponse)
+                return Resource.Success(resultResponse)
             }
         }
 
