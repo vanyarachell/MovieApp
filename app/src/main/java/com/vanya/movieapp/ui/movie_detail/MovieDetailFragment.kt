@@ -26,6 +26,8 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
 
     private val mViewModel by viewModels<HomeViewModel>()
 
+    private lateinit var mAdapter: MovieDetailAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -66,8 +68,14 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
             findNavController().navigate(MovieDetailFragmentDirections.actionNavigationDetailToFavorite())
         }
         binding?.ibFavoriteDetail?.setOnClickListener {
+
             mViewModel.saveMovie(navigationArgs.movie)
+            Toast.makeText(context, "Saved to Favourite", Toast.LENGTH_LONG)
+                .show()
         }
+
+        mAdapter = MovieDetailAdapter(navigationArgs.movie.getListGenre())
+        binding?.rvGenre?.adapter = mAdapter
     }
 
     override fun onDestroyView() {

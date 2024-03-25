@@ -70,6 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp4"
             android:background="@drawable/ic_favorite_off"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
             app:layout_constraintStart_toEndOf="@id/iv_movie_poster_detail"
             app:layout_constraintTop_toBottomOf="@id/tv_movie_title_poster" />
 
@@ -107,6 +108,7 @@
             android:scrollbars="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintStart_toEndOf="@id/iv_movie_poster_detail"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_movie_year_detail"
             tools:itemCount="3" />
 
