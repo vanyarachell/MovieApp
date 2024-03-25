@@ -2,6 +2,7 @@ package com.vanya.movieapp.model
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import com.vanya.movieapp.util.DataGenres
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -65,4 +66,20 @@ data class Movie(
 
     fun fullPathUrl(): String = "https://image.tmdb.org/t/p/w342$posterPath"
     fun fullBackdropUrl(): String = "https://image.tmdb.org/t/p/w342$backdropPath"
+
+    fun getListGenre(): List<String> {
+        val listString = arrayListOf<String>()
+        DataGenres.getGenreList().forEach { genre ->
+            genreIds?.forEach { ids ->
+                genre.id.let {
+                    if (ids == it) {
+                        genre.name.let { name ->
+                            listString.add(name)
+                        }
+                    }
+                }
+            }
+        }
+        return listString
+    }
 }

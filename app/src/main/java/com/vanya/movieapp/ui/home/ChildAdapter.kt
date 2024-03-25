@@ -11,10 +11,10 @@ import com.vanya.movieapp.model.Genre
  * Created by vanyarachell on Sun, 24 Mar 2024
  * vanyarachel05@gmail.com
  */
-class ChildAdapter constructor(private val listGenre: List<Genre>) :
+class ChildAdapter constructor(private val listGenre: List<String>) :
     RecyclerView.Adapter<ChildAdapter.ItemViewHolder>() {
 
-    private val listItem = arrayListOf<String>()
+//    private val listItem = arrayListOf<String>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         return ItemViewHolder(
@@ -26,12 +26,12 @@ class ChildAdapter constructor(private val listGenre: List<Genre>) :
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.bind(listItem[position])
+        holder.bind(listGenre[position])
     }
 
-    override fun getItemCount() = listItem.size
+    override fun getItemCount() = listGenre.size
 
-    fun updateData(listIds: List<Int>) {
+/*    fun updateData(listIds: List<Int>) {
         listItem.clear()
         val listString = arrayListOf<String>()
         listIds.forEach { ids ->
@@ -48,7 +48,7 @@ class ChildAdapter constructor(private val listGenre: List<Genre>) :
 
         listItem.addAll(listString)
         notifyItemRangeChanged(0, listItem.size)
-    }
+    }*/
 
     inner class ItemViewHolder(private val binding: ItemCategoryBinding) :
         RecyclerView.ViewHolder(binding.root) {

@@ -1,7 +1,6 @@
 package com.vanya.movieapp.ui.home
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -21,8 +20,8 @@ class HomeAdapter(
 ) :
     RecyclerView.Adapter<HomeAdapter.ItemViewHolder>() {
 
-//    private var listMovie = arrayListOf<Movie>()
-    private var mListGenre = listOf<Genre>()
+    //    private var listMovie = arrayListOf<Movie>()
+//    private var mListGenre = listOf<Genre>()
 
     private val differCallback = object : DiffUtil.ItemCallback<Movie>() {
         override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
@@ -60,16 +59,16 @@ class HomeAdapter(
     }
 
 
-/*    @SuppressLint("NotifyDataSetChanged")
-    fun updateData(movieList: List<Movie>, listGenre: List<Genre>) {
-        listMovie.clear()
-        listMovie.addAll(movieList)
-        mListGenre = listGenre
-        notifyDataSetChanged()
-    }*/
-        @SuppressLint("NotifyDataSetChanged")
+    /*    @SuppressLint("NotifyDataSetChanged")
+        fun updateData(movieList: List<Movie>, listGenre: List<Genre>) {
+            listMovie.clear()
+            listMovie.addAll(movieList)
+            mListGenre = listGenre
+            notifyDataSetChanged()
+        }*/
+    @SuppressLint("NotifyDataSetChanged")
     fun updateGenre(listGenre: List<Genre>) {
-        mListGenre = listGenre
+//        mListGenre = listGenre
     }
 
     inner class ItemViewHolder(private val binding: ItemMovieBinding) :
@@ -81,11 +80,11 @@ class HomeAdapter(
                 onClick(item)
             }
 
-            val mChildAdapter = ChildAdapter(mListGenre)
+            val mChildAdapter = ChildAdapter(item.getListGenre())
             binding.childAdapter = mChildAdapter
-            item.genreIds?.let {
-                mChildAdapter.updateData(it)
-            }
+//            item.genreIds?.let {
+//                mChildAdapter.updateData(it)
+//            }
         }
     }
 }

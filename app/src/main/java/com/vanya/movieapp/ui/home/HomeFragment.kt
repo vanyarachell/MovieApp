@@ -72,7 +72,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         binding?.apply {
-            mViewModel.getGenreList()
+//            mViewModel.getGenreList()
             searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
                     Log.e("my onQueryTextSubmit", "===== $query")
@@ -91,10 +91,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
             })
 
-
+            mViewModel.getPopularMovies()
         }
 
-        mViewModel.genreList.observe(viewLifecycleOwner) { response ->
+  /*      mViewModel.genreList.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Success -> {
                     Log.e(" ==== GENRE LIST", "SUCCESS")
@@ -106,7 +106,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     hideErrorMessage()
 
                     // update  genre
-                    mAdapter.updateGenre(listGenres)
+//                    mAdapter.updateGenre(listGenres)
 
                     mViewModel.getPopularMovies()
                 }
@@ -121,7 +121,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     showProgressBar()
                 }
             }
-        }
+        }*/
 
         mViewModel.popularMovies.observe(viewLifecycleOwner) { response ->
             when (response) {

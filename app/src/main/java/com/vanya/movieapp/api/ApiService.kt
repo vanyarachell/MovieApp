@@ -30,10 +30,10 @@ interface ApiService {
          .build()
 
      val response = client.newCall(request).execute()*/
-    @GET("genre/movie/list")
+/*    @GET("genre/movie/list")
     suspend fun getGenres(
         @Header("Authorization") authorization: String
-    ): Response<GenreResponse>
+    ): Response<GenreResponse>*/
 
 
     /* val client = OkHttpClient()

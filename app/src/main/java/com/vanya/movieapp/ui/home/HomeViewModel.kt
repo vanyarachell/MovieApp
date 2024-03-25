@@ -20,8 +20,8 @@ class HomeViewModel @Inject constructor(private val movieRepository: MovieReposi
     var moviePage = 1
     private var popularMovieResponse: MovieResponse? = null
 
-    val genreList: MutableLiveData<Resource<GenreResponse>> = MutableLiveData()
-
+ /*   val genreList: MutableLiveData<Resource<GenreResponse>> = MutableLiveData()
+*/
     val TOKEN =
         "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4YmMzODExNGYxN2E4ZTMwMDJhNWUxNTFiMWFjMmJkYSIsInN1YiI6IjU3MjI0ZGVlYzNhMzY4MmQxZTAwMDA3MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.3eFEU9Ajy3WJAlKDXTV3hVNEc7Al4QJMjRIcx9N9HUo"
 
@@ -29,9 +29,9 @@ class HomeViewModel @Inject constructor(private val movieRepository: MovieReposi
         safePopularMoviesCall()
     }
 
-    fun getGenreList() = viewModelScope.launch {
+   /* fun getGenreList() = viewModelScope.launch {
         safeGenreListCall()
-    }
+    }*/
 
     private suspend fun safePopularMoviesCall() {
         popularMovies.postValue(Resource.Loading())
@@ -39,11 +39,11 @@ class HomeViewModel @Inject constructor(private val movieRepository: MovieReposi
         popularMovies.postValue(handlePopularMovieResponse(response))
     }
 
-    private suspend fun safeGenreListCall() {
+/*    private suspend fun safeGenreListCall() {
         genreList.postValue(Resource.Loading())
         val response = movieRepository.getGenres("Bearer $TOKEN")
         genreList.postValue(handleGenresResponse(response))
-    }
+    }*/
 
     private fun handlePopularMovieResponse(response: Response<MovieResponse>): Resource<MovieResponse> {
         if (response.isSuccessful) {
@@ -64,7 +64,7 @@ class HomeViewModel @Inject constructor(private val movieRepository: MovieReposi
         return Resource.Error(response.message())
     }
 
-    private fun handleGenresResponse(response: Response<GenreResponse>): Resource<GenreResponse> {
+/*    private fun handleGenresResponse(response: Response<GenreResponse>): Resource<GenreResponse> {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
                 return Resource.Success(resultResponse)
@@ -72,5 +72,5 @@ class HomeViewModel @Inject constructor(private val movieRepository: MovieReposi
         }
 
         return Resource.Error(response.message())
-    }
+    }*/
 }
