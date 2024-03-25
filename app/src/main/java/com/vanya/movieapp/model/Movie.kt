@@ -1,10 +1,16 @@
 package com.vanya.movieapp.model
 
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import com.vanya.movieapp.util.DataGenres
 import kotlinx.parcelize.Parcelize
 
+@Entity
+    (
+    tableName = "movies"
+)
 @Parcelize
 data class Movie(
     @field:SerializedName("overview")
@@ -40,6 +46,7 @@ data class Movie(
     @field:SerializedName("vote_average")
     val voteAverage: Float? = null,
 
+    @PrimaryKey(autoGenerate = true)
     @field:SerializedName("id")
     val id: Int? = null,
 

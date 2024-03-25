@@ -69,15 +69,17 @@ dependencies {
     implementation ("com.squareup.retrofit2:converter-gson:2.6.0")
     implementation ("com.squareup.okhttp3:logging-interceptor:4.12.0")
 
-
-    implementation("com.squareup.moshi:moshi-kotlin:1.13.0")
-
     implementation("com.github.bumptech.glide:glide:4.16.0")
 
     implementation("com.google.dagger:hilt-android:2.48")
     kapt("com.google.dagger:hilt-android-compiler:2.48")
 
     // sandwich
-    // sandwich
     implementation ("com.github.skydoves:sandwich:1.3.2")
+
+    implementation ("androidx.room:room-runtime:2.6.1")
+    kapt ("androidx.room:room-compiler:2.6.1")
+
+    // Kotlin Extensions and Coroutines support for Room
+    implementation ("androidx.room:room-ktx:2.6.1")
 }

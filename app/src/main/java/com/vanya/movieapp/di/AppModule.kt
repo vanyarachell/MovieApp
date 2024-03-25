@@ -1,10 +1,13 @@
 package com.vanya.movieapp.di
 
+import android.content.Context
 import com.vanya.movieapp.api.ApiService
+import com.vanya.movieapp.db.MovieDatabase
 import com.vanya.movieapp.repository.MovieRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import retrofit2.Retrofit
@@ -21,7 +24,13 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideRepository(): MovieRepository {
-        return MovieRepository()
+    fun provideMovieDatabase(
+        @ApplicationContext context: Context
+    ) = MovieDatabase.invoke(context)
+
+    @Singleton
+    @Provides
+    fun provideRepository(db: MovieDatabase): MovieRepository {
+        return MovieRepository(db)
     }
 }
