@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.vanya.movieapp.R
 import com.vanya.movieapp.databinding.FragmentHomeBinding
 import com.vanya.movieapp.model.Genre
+import com.vanya.movieapp.ui.HomeViewModel
 import com.vanya.movieapp.util.Constants
 import com.vanya.movieapp.util.Constants.Companion.QUERY_PAGE_SIZE
 import com.vanya.movieapp.util.Resource

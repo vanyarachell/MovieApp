@@ -7,17 +7,24 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.vanya.movieapp.R
 import com.vanya.movieapp.databinding.FragmentMovieDetailBinding
+import com.vanya.movieapp.ui.HomeViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-class MovieDetailFragment : Fragment() {
+@AndroidEntryPoint
+class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
 
     //    private var _binding: FragmentMovieDetailBinding? = null
 
     private var binding: FragmentMovieDetailBinding? = null
 
     private val navigationArgs: MovieDetailFragmentArgs by navArgs()
+
+    private val mViewModel by viewModels<HomeViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,6 +33,9 @@ class MovieDetailFragment : Fragment() {
     ): View? {
 
         binding = FragmentMovieDetailBinding.inflate(inflater, container, false)
+        binding?.apply {
+            lifecycleOwner = this@MovieDetailFragment.viewLifecycleOwner
+        }
 
         binding?.apply {
 
@@ -54,6 +64,9 @@ class MovieDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding?.btnFav?.setOnClickListener {
             findNavController().navigate(MovieDetailFragmentDirections.actionNavigationDetailToFavorite())
+        }
+        binding?.ibFavoriteDetail?.setOnClickListener {
+            mViewModel.saveMovie(navigationArgs.movie)
         }
     }
 

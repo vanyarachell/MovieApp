@@ -54,7 +54,9 @@ data class Movie(
     val adult: Boolean? = null,
 
     @field:SerializedName("vote_count")
-    val voteCount: Int? = null
+    val voteCount: Int? = null,
+
+    val personalRating: Int? = null
 ) : Parcelable {
 
     //release date ex

@@ -48,7 +48,7 @@
 
     <fragment
         android:id="@+id/navigation_favorite"
-        android:name="com.vanya.movieapp.ui.favorites.FragmentFavorites"
+        android:name="com.vanya.movieapp.ui.favorites.FavoritesFragment"
         android:label="@string/my_favorites"
         tools:layout="@layout/fragment_favorites" />
 </navigation>

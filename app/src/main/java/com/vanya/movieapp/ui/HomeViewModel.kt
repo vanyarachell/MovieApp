@@ -1,9 +1,9 @@
-package com.vanya.movieapp.ui.home
+package com.vanya.movieapp.ui
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.vanya.movieapp.model.GenreResponse
+import com.vanya.movieapp.model.Movie
 import com.vanya.movieapp.model.MovieResponse
 import com.vanya.movieapp.repository.MovieRepository
 import com.vanya.movieapp.util.Resource
@@ -73,4 +73,10 @@ class HomeViewModel @Inject constructor(private val movieRepository: MovieReposi
 
         return Resource.Error(response.message())
     }*/
+
+    fun saveMovie(movie: Movie) = viewModelScope.launch {
+        movieRepository.addFavourite(movie)
+    }
+
+    fun getSavedNews() = movieRepository.getFavouriteMovies()
 }

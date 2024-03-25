@@ -10,7 +10,7 @@
 
         <variable
             name="vm"
-            type="com.vanya.movieapp.ui.home.HomeViewModel" />
+            type="com.vanya.movieapp.ui.HomeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
