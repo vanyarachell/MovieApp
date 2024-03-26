@@ -50,14 +50,6 @@ class HomeAdapter(
 
     override fun getItemCount() = differ.currentList.size
 
-    override fun getItemId(position: Int): Long {
-        return super.getItemId(position)
-    }
-
-    override fun getItemViewType(position: Int): Int {
-        return super.getItemViewType(position)
-    }
-
 
     /*    @SuppressLint("NotifyDataSetChanged")
         fun updateData(movieList: List<Movie>, listGenre: List<Genre>) {

@@ -95,34 +95,34 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             mViewModel.getPopularMovies()
         }
 
-  /*      mViewModel.genreList.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is Resource.Success -> {
-                    Log.e(" ==== GENRE LIST", "SUCCESS")
-                    response.data?.genres?.toList()?.let {
-                        listGenres = it
-                        Log.e(" ==== GENRE LIST", listGenres.size.toString())
-                    }
-                    hideProgressBar()
-                    hideErrorMessage()
+        /*      mViewModel.genreList.observe(viewLifecycleOwner) { response ->
+                  when (response) {
+                      is Resource.Success -> {
+                          Log.e(" ==== GENRE LIST", "SUCCESS")
+                          response.data?.genres?.toList()?.let {
+                              listGenres = it
+                              Log.e(" ==== GENRE LIST", listGenres.size.toString())
+                          }
+                          hideProgressBar()
+                          hideErrorMessage()
 
-                    // update  genre
-//                    mAdapter.updateGenre(listGenres)
+                          // update  genre
+      //                    mAdapter.updateGenre(listGenres)
 
-                    mViewModel.getPopularMovies()
-                }
+                          mViewModel.getPopularMovies()
+                      }
 
-                is Resource.Error -> {
-                    Log.e(" ==== GENRE LIST", "ERROR")
-                    hideProgressBar()
-                }
+                      is Resource.Error -> {
+                          Log.e(" ==== GENRE LIST", "ERROR")
+                          hideProgressBar()
+                      }
 
-                is Resource.Loading -> {
-                    Log.e(" ==== GENRE LIST", "LOADING")
-                    showProgressBar()
-                }
-            }
-        }*/
+                      is Resource.Loading -> {
+                          Log.e(" ==== GENRE LIST", "LOADING")
+                          showProgressBar()
+                      }
+                  }
+              }*/
 
         mViewModel.popularMovies.observe(viewLifecycleOwner) { response ->
             when (response) {
@@ -199,7 +199,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             val isNotLoadingAndNotLastPage = !isLoading && !isLastPage
             val isAtLastItem = firstVisibleItemPosition + visibleItemCount >= totalItemCount
             val isNotAtBeginning = firstVisibleItemPosition >= 0
-            val isTotalMoreThanVisible = totalItemCount >= Constants.QUERY_PAGE_SIZE
+            val isTotalMoreThanVisible = totalItemCount >= QUERY_PAGE_SIZE
             val shouldPaginate =
                 isNoErrors && isNotLoadingAndNotLastPage && isAtLastItem && isNotAtBeginning &&
                         isTotalMoreThanVisible && isScrolling

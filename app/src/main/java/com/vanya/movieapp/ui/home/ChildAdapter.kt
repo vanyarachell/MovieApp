@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.vanya.movieapp.R
 import com.vanya.movieapp.databinding.ItemCategoryBinding
-import com.vanya.movieapp.model.Genre
 
 /**
  * Created by vanyarachell on Sun, 24 Mar 2024
@@ -31,24 +30,24 @@ class ChildAdapter constructor(private val listGenre: List<String>) :
 
     override fun getItemCount() = listGenre.size
 
-/*    fun updateData(listIds: List<Int>) {
-        listItem.clear()
-        val listString = arrayListOf<String>()
-        listIds.forEach { ids ->
-            listGenre.forEach { genre ->
-                genre.id?.let {
-                    if (ids == it) {
-                        genre.name?.let { name ->
-                            listString.add(name)
+    /*    fun updateData(listIds: List<Int>) {
+            listItem.clear()
+            val listString = arrayListOf<String>()
+            listIds.forEach { ids ->
+                listGenre.forEach { genre ->
+                    genre.id?.let {
+                        if (ids == it) {
+                            genre.name?.let { name ->
+                                listString.add(name)
+                            }
                         }
                     }
                 }
             }
-        }
 
-        listItem.addAll(listString)
-        notifyItemRangeChanged(0, listItem.size)
-    }*/
+            listItem.addAll(listString)
+            notifyItemRangeChanged(0, listItem.size)
+        }*/
 
     inner class ItemViewHolder(private val binding: ItemCategoryBinding) :
         RecyclerView.ViewHolder(binding.root) {

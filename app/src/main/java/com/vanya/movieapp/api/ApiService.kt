@@ -1,6 +1,5 @@
 package com.vanya.movieapp.api
 
-import com.vanya.movieapp.model.GenreResponse
 import com.vanya.movieapp.model.MovieResponse
 import retrofit2.Call
 import retrofit2.Response
@@ -30,10 +29,10 @@ interface ApiService {
          .build()
 
      val response = client.newCall(request).execute()*/
-/*    @GET("genre/movie/list")
-    suspend fun getGenres(
-        @Header("Authorization") authorization: String
-    ): Response<GenreResponse>*/
+    /*    @GET("genre/movie/list")
+        suspend fun getGenres(
+            @Header("Authorization") authorization: String
+        ): Response<GenreResponse>*/
 
 
     /* val client = OkHttpClient()

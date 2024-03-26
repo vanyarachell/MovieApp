@@ -93,7 +93,7 @@ data class Movie(
         return listString
     }
 
-    fun stringPersonalRating(): String{
+    fun stringPersonalRating(): String {
         return personalRating.toString()
     }
 }
