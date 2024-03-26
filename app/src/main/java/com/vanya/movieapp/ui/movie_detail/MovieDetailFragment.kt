@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.vanya.movieapp.R
 import com.vanya.movieapp.databinding.FragmentMovieDetailBinding
+import com.vanya.movieapp.model.Movie
 import com.vanya.movieapp.ui.HomeViewModel
 import com.vanya.movieapp.util.Constants
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,6 +32,8 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
     private lateinit var mAdapter: MovieDetailAdapter
 
     private lateinit var dialog: DialogFragment
+
+    private var mMovie = Movie()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,8 +54,16 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
                 Toast.makeText(context, result, Toast.LENGTH_SHORT).show()
                 // Do something with the result.
 
+                val updatedMovie = mMovie.apply {
+                    personalRating = result?.toInt() ?: 0
+                }
+                mViewModel.saveMovie(updatedMovie)
                 // go to new page
-                findNavController().navigate(MovieDetailFragmentDirections.actionNavigationDetailToRated())
+                findNavController().navigate(
+                    MovieDetailFragmentDirections.actionNavigationDetailToRated(
+                        updatedMovie
+                    )
+                )
             }
         }
 
@@ -63,6 +74,7 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
 
 
             movie = navigationArgs.movie
+            mMovie = navigationArgs.movie
 
             Toast.makeText(
                 this@MovieDetailFragment.context,

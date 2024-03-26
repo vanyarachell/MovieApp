@@ -59,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp8"
-            android:text="@string/zero"
+            android:text="@{movie.stringPersonalRating}"
             app:layout_constraintEnd_toEndOf="@id/iv_movie_favorite"
             app:layout_constraintStart_toStartOf="@id/iv_movie_favorite"
             app:layout_constraintTop_toBottomOf="@id/tv_rating_title" />

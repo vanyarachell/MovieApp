@@ -43,6 +43,9 @@
         <action
             android:id="@+id/action_navigation_rated_to_favorite"
             app:destination="@id/navigation_favorite"/>
+        <argument
+            android:name="movie"
+            app:argType="com.vanya.movieapp.model.Movie" />
 
     </fragment>
 

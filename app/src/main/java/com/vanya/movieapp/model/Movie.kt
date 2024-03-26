@@ -56,7 +56,8 @@ data class Movie(
     @field:SerializedName("vote_count")
     val voteCount: Int? = null,
 
-    val personalRating: Int? = null
+    var personalRating: Int = -1
+
 ) : Parcelable {
 
     //release date ex
@@ -90,5 +91,9 @@ data class Movie(
             }
         }
         return listString
+    }
+
+    fun stringPersonalRating(): String{
+        return personalRating.toString()
     }
 }

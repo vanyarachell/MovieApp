@@ -9,7 +9,7 @@ import com.vanya.movieapp.model.Movie
 
 @Database(
     entities = [Movie::class],
-    version = 2
+    version = 3
 )
 @TypeConverters(Converters::class)
 abstract class MovieDatabase : RoomDatabase() {

@@ -1,10 +1,12 @@
 package com.vanya.movieapp.ui.movie_rated
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import com.vanya.movieapp.R
 import com.vanya.movieapp.databinding.FragmentMovieRatedBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -13,6 +15,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class MovieRatedFragment : Fragment(R.layout.fragment_movie_rated) {
 
     private var binding: FragmentMovieRatedBinding? = null
+
+    private val navigationArgs: MovieRatedFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -23,12 +27,18 @@ class MovieRatedFragment : Fragment(R.layout.fragment_movie_rated) {
 
         binding?.apply {
             lifecycleOwner = this@MovieRatedFragment.viewLifecycleOwner
-
+            movie = navigationArgs.movie
+            Log.e("=== AB", navigationArgs.movie.fullBackdropUrl())
         }
-        return super.onCreateView(inflater, container, savedInstanceState)
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 }
