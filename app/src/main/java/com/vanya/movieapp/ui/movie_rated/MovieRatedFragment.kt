@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.vanya.movieapp.R
 import com.vanya.movieapp.databinding.FragmentMovieRatedBinding
@@ -29,6 +30,10 @@ class MovieRatedFragment : Fragment(R.layout.fragment_movie_rated) {
             lifecycleOwner = this@MovieRatedFragment.viewLifecycleOwner
             movie = navigationArgs.movie
             Log.e("=== AB", navigationArgs.movie.fullBackdropUrl())
+
+            btnBackRated.setOnClickListener {
+                findNavController().navigate(MovieRatedFragmentDirections.actionNavigationRatedToHome())
+            }
         }
         return binding?.root
     }

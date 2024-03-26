@@ -35,7 +35,10 @@
             android:layout_marginStart="@dimen/dp16"
             android:layout_marginTop="@dimen/dp16"
             android:background="@drawable/bg_rounded_transparent"
+            android:clickable="true"
             android:drawableLeft="@drawable/ic_back"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
             android:text="@string/back_to_search"
             android:textAllCaps="false"
             app:layout_constraintStart_toStartOf="parent"
@@ -107,8 +110,8 @@
             android:paddingHorizontal="@dimen/dp16"
             android:scrollbars="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintStart_toEndOf="@id/iv_movie_poster_detail"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_movie_poster_detail"
             app:layout_constraintTop_toBottomOf="@id/tv_movie_year_detail"
             tools:itemCount="3" />
 
