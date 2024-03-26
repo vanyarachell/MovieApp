@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -13,6 +14,7 @@ import androidx.navigation.fragment.navArgs
 import com.vanya.movieapp.R
 import com.vanya.movieapp.databinding.FragmentMovieDetailBinding
 import com.vanya.movieapp.ui.HomeViewModel
+import com.vanya.movieapp.util.Constants
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,6 +30,8 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
 
     private lateinit var mAdapter: MovieDetailAdapter
 
+    private lateinit var dialog: DialogFragment
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -37,9 +41,26 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
         binding = FragmentMovieDetailBinding.inflate(inflater, container, false)
         binding?.apply {
             lifecycleOwner = this@MovieDetailFragment.viewLifecycleOwner
+
+            childFragmentManager.setFragmentResultListener(
+                Constants.REQUEST_GET_RATE,
+                this@MovieDetailFragment.viewLifecycleOwner
+            ) { _, bundle ->
+                val result = bundle.getString(Constants.ITEM_RATE)
+
+                Toast.makeText(context, result, Toast.LENGTH_SHORT).show()
+                // Do something with the result.
+
+                // go to new page
+                findNavController().navigate(MovieDetailFragmentDirections.actionNavigationDetailToRated())
+            }
         }
 
         binding?.apply {
+            dialog = DialogFragment()
+            dialog.dialog?.setContentView(R.layout.fragment_dialog_rating)
+            dialog.isCancelable = false
+
 
             movie = navigationArgs.movie
 
@@ -58,20 +79,32 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
                         .start()
                 }
             }
+
+
         }
         return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding?.btnFav?.setOnClickListener {
-            findNavController().navigate(MovieDetailFragmentDirections.actionNavigationDetailToFavorite())
-        }
-        binding?.ibFavoriteDetail?.setOnClickListener {
+        binding?.apply {
+            btnFav.setOnClickListener {
+                findNavController().navigate(MovieDetailFragmentDirections.actionNavigationDetailToFavorite())
+            }
+            ibFavoriteDetail.setOnClickListener {
 
-            mViewModel.saveMovie(navigationArgs.movie)
-            Toast.makeText(context, "Saved to Favourite", Toast.LENGTH_LONG)
-                .show()
+                mViewModel.saveMovie(navigationArgs.movie)
+                Toast.makeText(context, "Saved to Favourite", Toast.LENGTH_LONG)
+                    .show()
+            }
+
+            btnRating.setOnClickListener {
+                childFragmentManager.let {
+                    RatingDialogFragment.newInstance("TITLE", "DETAIL").show(
+                        it, "TAGH"
+                    )
+                }
+            }
         }
 
         mAdapter = MovieDetailAdapter(navigationArgs.movie.getListGenre())
