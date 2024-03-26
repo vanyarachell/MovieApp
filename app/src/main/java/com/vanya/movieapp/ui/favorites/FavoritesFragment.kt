@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.vanya.movieapp.R
 import com.vanya.movieapp.databinding.FragmentFavoritesBinding
-import com.vanya.movieapp.ui.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -17,7 +17,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
 
     private var binding: FragmentFavoritesBinding? = null
 
-    private val mViewModel by viewModels<HomeViewModel>()
+    private val mViewModel by viewModels<FavoriteViewModel>()
 
     private val mAdapter by lazy {
         FavoritesAdapter(
@@ -52,12 +52,20 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mViewModel.getSavedNews().observe(viewLifecycleOwner) { articles ->
-            mAdapter.differ.submitList(articles)
+        mViewModel.getSavedMovies().observe(viewLifecycleOwner) { movies ->
+            mAdapter.differ.submitList(movies)
         }
 
         binding?.apply {
             rvFavorites.adapter = mAdapter
+
+            btnBackDetail.setOnClickListener {
+                findNavController().popBackStack(R.id.navigation_detail, true)
+            }
+
+            btnSearchNav.setOnClickListener {
+                findNavController().navigate(FavoritesFragmentDirections.actionNavigationFavoriteToHome())
+            }
         }
     }
 }

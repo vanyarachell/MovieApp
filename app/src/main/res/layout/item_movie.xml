@@ -35,67 +35,64 @@
             app:srcImage="@{movie.fullPathUrl()}"
             tools:srcCompat="@mipmap/ic_launcher" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_movie_title"
+            style="@style/InterBoldBig"
             android:layout_width="@dimen/dp0"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp16"
+            android:layout_marginBottom="@dimen/dp8"
+            android:text="@{movie.title}"
+            app:layout_constraintBottom_toTopOf="@id/tv_movie_year"
+            app:layout_constraintStart_toEndOf="@id/iv_movie_poster"
+            tools:text="@string/movie_title" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_movie_year"
+            style="@style/InterSmallGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp16"
+            android:layout_marginBottom="@dimen/dp8"
+            android:text="@{movie.yearRelease()}"
+            app:layout_constraintBottom_toTopOf="@id/tv_movie_rating"
+            app:layout_constraintStart_toEndOf="@id/iv_movie_poster"
+            tools:text="@string/movie_year" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_movie_rating"
+            style="@style/InterBoldSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp16"
+            android:layout_marginBottom="@dimen/dp8"
+            android:text="@{movie.percentageScore()}"
+            app:layout_constraintBottom_toTopOf="@id/rv_list_genre"
+            app:layout_constraintStart_toEndOf="@id/iv_movie_poster" />
+
+        <com.google.android.material.textview.MaterialTextView
+            style="@style/InterSmallBlack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp8"
+            android:layout_marginBottom="@dimen/dp8"
+            android:text="@string/user_score"
+            app:layout_constraintBottom_toTopOf="@id/rv_list_genre"
+            app:layout_constraintStart_toEndOf="@id/tv_movie_rating" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_list_genre"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp12"
+            android:adapter="@{childAdapter}"
+            android:nestedScrollingEnabled="false"
+            android:orientation="horizontal"
+            android:scrollbars="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/iv_movie_poster">
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tv_movie_title"
-                style="@style/InterBoldBig"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{movie.title}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="@string/movie_title" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tv_movie_year"
-                style="@style/InterSmallGrey"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{movie.yearRelease()}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_movie_title"
-                tools:text="@string/movie_year" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tv_movie_rating"
-                style="@style/InterBoldSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp8"
-                android:text="@{movie.percentageScore()}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_movie_year" />
-
-            <com.google.android.material.textview.MaterialTextView
-                style="@style/InterSmallBlack"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp8"
-                android:layout_marginTop="@dimen/dp8"
-                android:text="@string/user_score"
-                app:layout_constraintStart_toEndOf="@id/tv_movie_rating"
-                app:layout_constraintTop_toBottomOf="@id/tv_movie_year" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_list_genre"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp8"
-                android:adapter="@{childAdapter}"
-                android:nestedScrollingEnabled="false"
-                android:orientation="horizontal"
-                android:scrollbars="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintTop_toBottomOf="@id/tv_movie_rating"
-                tools:itemCount="3" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintStart_toEndOf="@id/iv_movie_poster"
+            tools:itemCount="3"
+            tools:layout_editor_absoluteX="0dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

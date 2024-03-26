@@ -1,8 +1,9 @@
-package com.vanya.movieapp.ui
+package com.vanya.movieapp.ui.home
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.vanya.movieapp.model.GenreResponse
 import com.vanya.movieapp.model.Movie
 import com.vanya.movieapp.model.MovieResponse
 import com.vanya.movieapp.repository.MovieRepository
@@ -16,17 +17,26 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(private val movieRepository: MovieRepository) :
     ViewModel() {
 
-    val popularMovies: MutableLiveData<Resource<MovieResponse>> = MutableLiveData()
     var moviePage = 1
+    var searchPage = 1
+
+    val popularMovies: MutableLiveData<Resource<MovieResponse>> = MutableLiveData()
     private var popularMovieResponse: MovieResponse? = null
 
-    /*   val genreList: MutableLiveData<Resource<GenreResponse>> = MutableLiveData()
-   */
+    val searchedMovies: MutableLiveData<Resource<MovieResponse>> = MutableLiveData()
+    private var searchedMovieResponse: MovieResponse? = null
+
+    val genreList: MutableLiveData<Resource<GenreResponse>> = MutableLiveData()
+
     val TOKEN =
         "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4YmMzODExNGYxN2E4ZTMwMDJhNWUxNTFiMWFjMmJkYSIsInN1YiI6IjU3MjI0ZGVlYzNhMzY4MmQxZTAwMDA3MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.3eFEU9Ajy3WJAlKDXTV3hVNEc7Al4QJMjRIcx9N9HUo"
 
     fun getPopularMovies() = viewModelScope.launch {
         safePopularMoviesCall()
+    }
+
+    fun searchMovies(query: String) = viewModelScope.launch {
+        searchMoviesCall(query)
     }
 
     /* fun getGenreList() = viewModelScope.launch {
@@ -36,7 +46,13 @@ class HomeViewModel @Inject constructor(private val movieRepository: MovieReposi
     private suspend fun safePopularMoviesCall() {
         popularMovies.postValue(Resource.Loading())
         val response = movieRepository.getPopularMovies("Bearer $TOKEN", moviePage)
-        popularMovies.postValue(handlePopularMovieResponse(response))
+        popularMovies.postValue(handleMovieResponse(response))
+    }
+
+    private suspend fun searchMoviesCall(query: String) {
+        searchedMovies.postValue(Resource.Loading())
+        val response = movieRepository.searchMovies("Bearer $TOKEN", query, searchPage)
+        searchedMovies.postValue(handleSearchResponse(response))
     }
 
     /*    private suspend fun safeGenreListCall() {
@@ -45,7 +61,7 @@ class HomeViewModel @Inject constructor(private val movieRepository: MovieReposi
             genreList.postValue(handleGenresResponse(response))
         }*/
 
-    private fun handlePopularMovieResponse(response: Response<MovieResponse>): Resource<MovieResponse> {
+    private fun handleMovieResponse(response: Response<MovieResponse>): Resource<MovieResponse> {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
                 moviePage++
@@ -64,6 +80,25 @@ class HomeViewModel @Inject constructor(private val movieRepository: MovieReposi
         return Resource.Error(response.message())
     }
 
+    private fun handleSearchResponse(response: Response<MovieResponse>): Resource<MovieResponse> {
+        if (response.isSuccessful) {
+            response.body()?.let { resultResponse ->
+                searchPage++
+                if (searchedMovieResponse == null) {
+                    searchedMovieResponse = resultResponse
+                } else {
+                    val oldMovies = searchedMovieResponse?.results
+                    val newArticles = resultResponse.results
+                    newArticles?.let {
+                        oldMovies?.addAll(it)
+                    }
+                }
+                return Resource.Success(searchedMovieResponse ?: resultResponse)
+            }
+        }
+        return Resource.Error(response.message())
+    }
+
     /*    private fun handleGenresResponse(response: Response<GenreResponse>): Resource<GenreResponse> {
             if (response.isSuccessful) {
                 response.body()?.let { resultResponse ->
@@ -73,10 +108,4 @@ class HomeViewModel @Inject constructor(private val movieRepository: MovieReposi
 
             return Resource.Error(response.message())
         }*/
-
-    fun saveMovie(movie: Movie) = viewModelScope.launch {
-        movieRepository.addFavourite(movie)
-    }
-
-    fun getSavedNews() = movieRepository.getFavouriteMovies()
 }

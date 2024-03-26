@@ -16,20 +16,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.vanya.movieapp.R
 import com.vanya.movieapp.databinding.FragmentHomeBinding
 import com.vanya.movieapp.model.Genre
-import com.vanya.movieapp.ui.HomeViewModel
-import com.vanya.movieapp.util.Constants
 import com.vanya.movieapp.util.Constants.Companion.QUERY_PAGE_SIZE
 import com.vanya.movieapp.util.Resource
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
-    companion object {
-        private const val TAG = "FIRST FRAGMENT => "
-    }
-
     private var binding: FragmentHomeBinding? = null
-
 
     private val mViewModel by viewModels<HomeViewModel>()
 
@@ -54,6 +47,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private var isLoading = false
     private var isLastPage = false
     var isScrolling = false
+    var searchedWord = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -71,28 +65,32 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         setupRecyclerView()
+
         binding?.apply {
 //            mViewModel.getGenreList()
+            mViewModel.getPopularMovies()
+            Log.d("getPopularMovies", "onViewCreated")
+
             searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
-                    Log.e("my onQueryTextSubmit", "===== $query")
-
                     query?.let {
-//                        doSearch(it)
-                        // todo DO SEARCH
+                        searchedWord = it
+                        if (searchedWord.isNotEmpty()) mViewModel.searchMovies(searchedWord)
                     }
                     return false
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
-                    Log.e("my onQueryTextChange", "===== $newText")
+                    newText?.let {
+                        searchedWord = it
+                        if (searchedWord.isEmpty()) mViewModel.getPopularMovies()
+                    }
                     return false
                 }
 
             })
-
-            mViewModel.getPopularMovies()
         }
 
         /*      mViewModel.genreList.observe(viewLifecycleOwner) { response ->
@@ -136,12 +134,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                         if (isLastPage) {
                             binding?.rvMovies?.setPadding(0, 0, 0, 0)
                         }
+                        binding?.tvTitleHome?.text = getString(R.string.popular_right_now)
                     }
                 }
 
                 is Resource.Error -> {
-                    Log.e(" ==== MOVIE LIST", "ERROR")
-
                     hideProgressBar()
                     response.message?.let { message ->
                         Toast.makeText(activity, "An error occured: $message", Toast.LENGTH_LONG)
@@ -151,10 +148,38 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 }
 
                 is Resource.Loading -> {
-                    Log.e(" ==== MOVIE LIST", "LOADING")
-
                     showProgressBar()
+                }
+            }
+        }
 
+        mViewModel.searchedMovies.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Resource.Success -> {
+                    hideProgressBar()
+                    hideErrorMessage()
+                    response.data?.let { movieResponse ->
+                        mAdapter.differ.submitList(movieResponse.results?.toList())
+                        val totalPages = movieResponse.totalResults / QUERY_PAGE_SIZE + 2
+                        isLastPage = mViewModel.searchPage == totalPages
+                        if (isLastPage) {
+                            binding?.rvMovies?.setPadding(0, 0, 0, 0)
+                        }
+                        binding?.tvTitleHome?.text = getString(R.string.your_result)
+                    }
+                }
+
+                is Resource.Error -> {
+                    hideProgressBar()
+                    response.message?.let { message ->
+                        Toast.makeText(activity, "An error occured: $message", Toast.LENGTH_LONG)
+                            .show()
+                        showErrorMessage(message)
+                    }
+                }
+
+                is Resource.Loading -> {
+                    showProgressBar()
                 }
             }
         }
@@ -204,7 +229,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 isNoErrors && isNotLoadingAndNotLastPage && isAtLastItem && isNotAtBeginning &&
                         isTotalMoreThanVisible && isScrolling
             if (shouldPaginate) {
-                mViewModel.getPopularMovies()
+                if (searchedWord.isEmpty()) mViewModel.getPopularMovies()
+                else mViewModel.searchMovies(searchedWord)
                 isScrolling = false
             }
         }

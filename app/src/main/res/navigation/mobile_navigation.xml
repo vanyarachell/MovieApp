@@ -64,5 +64,19 @@
         android:id="@+id/navigation_favorite"
         android:name="com.vanya.movieapp.ui.favorites.FavoritesFragment"
         android:label="@string/my_favorites"
-        tools:layout="@layout/fragment_favorites"/>
+        tools:layout="@layout/fragment_favorites">
+
+        <action
+            android:id="@+id/action_navigation_favorite_to_home"
+            app:destination="@id/navigation_home"
+            app:popUpTo="@+id/navigation_home"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_navigation_favorite_to_detail"
+            app:destination="@id/navigation_detail"
+            app:popUpTo="@+id/navigation_detail"
+            app:popUpToInclusive="true" />
+
+    </fragment>
 </navigation>

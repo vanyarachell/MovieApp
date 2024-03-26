@@ -1,7 +1,6 @@
 package com.vanya.movieapp.api
 
 import com.vanya.movieapp.model.MovieResponse
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -50,5 +49,6 @@ interface ApiService {
     suspend fun searchMovie(
         @Header("Authorization") authorization: String,
         @Query("query") query: String,
-    ): Call<MovieResponse>?
+        @Query("page") currentPage: Int
+    ): Response<MovieResponse>
 }
