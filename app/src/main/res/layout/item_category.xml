@@ -18,7 +18,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/dp4"
-        android:background="@drawable/bg_rounded_grey">
+        android:background="@drawable/bg_rounded_grey"
+        android:paddingHorizontal="@dimen/dp4">
 
 
         <com.google.android.material.textview.MaterialTextView

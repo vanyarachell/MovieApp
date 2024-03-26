@@ -42,13 +42,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/bg_rounded_white"
-                        android:hint="@string/search" />
+                        app:queryHint="@string/search" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_title_home"
                         style="@style/JomhuriaHeaderGreen"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp16"
                         android:text="@string/popular_right_now" />
 
                 </LinearLayout>
