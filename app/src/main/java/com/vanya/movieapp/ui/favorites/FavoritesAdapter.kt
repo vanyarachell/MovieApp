@@ -49,7 +49,7 @@ class FavoritesAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Movie) {
             binding.movie = item
-            binding.ivMovieFavorite.setOnClickListener {
+            binding.ibFavorite.setOnClickListener {
                 onClick(item)
             }
         }

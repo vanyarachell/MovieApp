@@ -1,4 +1,4 @@
-package com.vanya.movieapp.ui.favorites
+package com.vanya.movieapp.ui.movie_rated
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,8 +9,14 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class FavoriteViewModel @Inject constructor(private val movieRepository: MovieRepository) :
+class MovieRatedViewModel @Inject constructor(private val movieRepository: MovieRepository) :
     ViewModel() {
+
+    var isFavorite: Boolean = false
+
+    fun saveMovie(movie: Movie) = viewModelScope.launch {
+        movieRepository.addFavourite(movie)
+    }
 
     fun deleteMovie(movie: Movie) = viewModelScope.launch {
         movieRepository.deleteMovie(movie)

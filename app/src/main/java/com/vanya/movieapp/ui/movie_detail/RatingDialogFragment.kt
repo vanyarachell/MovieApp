@@ -1,7 +1,6 @@
 package com.vanya.movieapp.ui.movie_detail
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,8 +48,6 @@ class RatingDialogFragment : DialogFragment(R.layout.fragment_dialog_rating) {
         binding = FragmentDialogRatingBinding.bind(view)
         binding?.apply {
             btnSubmit.setOnClickListener {
-                Log.e("BTN SUBMIT", "HELLO ${rb.rating}")
-
                 // Use the Kotlin extension in the fragment-ktx artifact.
                 setFragmentResult(Constants.REQUEST_GET_RATE, bundleOf(Constants.ITEM_RATE to rate))
                 dismiss()

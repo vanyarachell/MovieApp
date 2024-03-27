@@ -21,6 +21,10 @@
     <string name="back">Back</string>
     <string name="overview">Overview</string>
     <string name="you_rated_this">You rated this</string>
+    <string name="input_your_rating">input your personal rating</string>
+    <string name="submit">Submit</string>
+    <string name="youve_rated_this">You\'ve rated this</string>
+    <string name="click_to_reset">Click to reset</string>
     <string name="go_to_favorites">Go to favourites</string>
     <string name="my_favorites">My favourites</string>
     <string name="my_rating">My Rating</string>

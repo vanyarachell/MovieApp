@@ -11,6 +11,9 @@ import javax.inject.Inject
 @HiltViewModel
 class MovieDetailViewModel @Inject constructor(private val movieRepository: MovieRepository) :
     ViewModel() {
+
+    var isFavorite: Boolean = false
+
     fun saveMovie(movie: Movie) = viewModelScope.launch {
         movieRepository.addFavourite(movie)
     }

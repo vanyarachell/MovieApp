@@ -33,7 +33,7 @@
             android:id="@+id/btn_back_rated"
             style="@style/InterSmallWhite"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/dp36"
             android:layout_marginStart="@dimen/dp16"
             android:layout_marginTop="@dimen/dp16"
             android:background="@drawable/bg_rounded_transparent"
@@ -66,7 +66,7 @@
             android:text="@string/you_rated_this"
             app:layout_constraintTop_toBottomOf="@id/tv_movie_title_rated" />
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_movie_poster_rated"
             android:layout_width="@dimen/dp120"
             android:layout_height="@dimen/dp162"
@@ -78,7 +78,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcImage="@{movie.fullPathUrl()}" />
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.SelectedCornerRadius"
+            app:srcImage="@{movie.fullPathUrl()}"
+            app:strokeColor="@color/white"
+            app:strokeWidth="@dimen/dp8" />
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/ib_rating_rated"
@@ -88,16 +91,49 @@
             app:layout_constraintBottom_toTopOf="@id/iv_movie_poster_rated"
             app:layout_constraintStart_toEndOf="@id/iv_movie_poster_rated" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/ib_rated"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <LinearLayout
+            android:id="@+id/ll_rated_score"
+            android:layout_width="@dimen/dp150"
+            android:layout_height="@dimen/dp36"
             android:layout_marginTop="@dimen/dp24"
-            android:background="@drawable/ic_btn_rated"
+            android:background="@drawable/bg_rated_score"
+            android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/dp8"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_movie_poster_rated" />
-        <!--        android:text="@{String.valueOf(movie.personalRating)}"-->
+            app:layout_constraintTop_toBottomOf="@id/iv_movie_poster_rated">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/InterSmallWhite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:text="@string/youve_rated_this"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_movie_poster_rated" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_rated_score"
+                style="@style/InterBigWhite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/dp8"
+                android:text="@{String.valueOf(movie.personalRating)}" />
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_reset_rate"
+            style="@style/InterSmallGreen"
+            android:layout_width="@dimen/dp150"
+            android:layout_height="@dimen/dp36"
+            android:background="@drawable/bg_rated_reset"
+            android:text="@string/click_to_reset"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ll_rated_score" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_fav_nav"
@@ -107,7 +143,7 @@
             android:text="@string/go_to_favorites"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ib_rated" />
+            app:layout_constraintTop_toBottomOf="@id/btn_reset_rate" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

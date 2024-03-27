@@ -16,7 +16,4 @@ class MovieRepository(private val db: MovieDatabase) {
     fun getFavouriteMovies() = db.getMovieDao().getAllFavourites()
 
     suspend fun deleteMovie(movie: Movie) = db.getMovieDao().deleteFavouriteMovie(movie)
-
-    /*    suspend fun getGenres(authorization: String) =
-            RetrofitInstance.api.getGenres(authorization)*/
 }

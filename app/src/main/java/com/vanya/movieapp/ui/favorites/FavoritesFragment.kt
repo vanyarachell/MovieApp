@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.vanya.movieapp.R
 import com.vanya.movieapp.databinding.FragmentFavoritesBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,22 +19,13 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
 
     private val mViewModel by viewModels<FavoriteViewModel>()
 
+    private val navigationArgs: FavoritesFragmentArgs by navArgs()
+
     private val mAdapter by lazy {
         FavoritesAdapter(
             onClick = {
-                it.id?.let { id ->
-                    Toast.makeText(
-                        this@FavoritesFragment.context,
-                        id.toString(),
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
-                    /* findNavController().navigate(
-                         HomeFragmentDirections.actionNavigationHomeToNavigationDetail(
-                             it
-                         )
-                     )*/
-                }
+                mViewModel.deleteMovie(it)
+                updateData()
             })
     }
 
@@ -52,19 +43,29 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mViewModel.getSavedMovies().observe(viewLifecycleOwner) { movies ->
-            mAdapter.differ.submitList(movies)
-        }
+        updateData()
 
         binding?.apply {
             rvFavorites.adapter = mAdapter
 
             btnBackDetail.setOnClickListener {
-                findNavController().popBackStack(R.id.navigation_detail, true)
+                findNavController().navigate(
+                    FavoritesFragmentDirections.actionNavigationFavoriteToDetail(
+                        navigationArgs.movie
+                    )
+                )
             }
 
             btnSearchNav.setOnClickListener {
                 findNavController().navigate(FavoritesFragmentDirections.actionNavigationFavoriteToHome())
+            }
+        }
+    }
+
+    private fun updateData() {
+        mViewModel.getSavedMovies().observe(viewLifecycleOwner) { movies ->
+            movies.let {
+                mAdapter.differ.submitList(it.filter { movie -> movie.isFavorite })
             }
         }
     }

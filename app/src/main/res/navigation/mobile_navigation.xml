@@ -66,6 +66,10 @@
         android:label="@string/my_favorites"
         tools:layout="@layout/fragment_favorites">
 
+        <argument
+            android:name="movie"
+            app:argType="com.vanya.movieapp.model.Movie" />
+
         <action
             android:id="@+id/action_navigation_favorite_to_home"
             app:destination="@id/navigation_home"

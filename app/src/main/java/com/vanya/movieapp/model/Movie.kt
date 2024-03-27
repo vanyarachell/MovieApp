@@ -56,7 +56,9 @@ data class Movie(
     @field:SerializedName("vote_count")
     val voteCount: Int? = null,
 
-    var personalRating: Int = -1
+    var personalRating: Int = 0,
+
+    var isFavorite: Boolean = false
 
 ) : Parcelable {
 

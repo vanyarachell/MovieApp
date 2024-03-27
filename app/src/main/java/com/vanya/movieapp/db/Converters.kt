@@ -5,7 +5,7 @@ import com.google.gson.Gson
 
 class Converters {
     @TypeConverter
-    fun listToJson(genreIds: List<Int>?) = Gson().toJson(genreIds)
+    fun listToJson(genreIds: List<Int>?): String = Gson().toJson(genreIds)
 
     @TypeConverter
     fun jsonToList(value: String) =

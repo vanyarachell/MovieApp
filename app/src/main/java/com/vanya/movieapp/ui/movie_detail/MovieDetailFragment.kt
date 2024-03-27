@@ -2,7 +2,6 @@ package com.vanya.movieapp.ui.movie_detail
 
 import android.animation.ObjectAnimator
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,8 +18,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
 
-    //    private var _binding: FragmentMovieDetailBinding? = null
-
     private var binding: FragmentMovieDetailBinding? = null
 
     private val navigationArgs: MovieDetailFragmentArgs by navArgs()
@@ -30,8 +27,6 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
     private lateinit var mAdapter: MovieDetailAdapter
 
     private lateinit var dialog: DialogFragment
-
-    private var isFavorite: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,13 +43,11 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
                 this@MovieDetailFragment.viewLifecycleOwner
             ) { _, bundle ->
                 val result = bundle.getString(Constants.ITEM_RATE)
-                Log.d("favorite movie result", result.toString())
 
                 val updatedMovie = navigationArgs.movie.apply {
                     personalRating = result?.toInt() ?: 0
                 }
                 mViewModel.saveMovie(updatedMovie)
-                // go to new page
                 findNavController().navigate(
                     MovieDetailFragmentDirections.actionNavigationDetailToRated(
                         updatedMovie
@@ -89,16 +82,19 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
 
         binding?.apply {
             btnFav.setOnClickListener {
-                findNavController().navigate(MovieDetailFragmentDirections.actionNavigationDetailToFavorite())
+                findNavController().navigate(
+                    MovieDetailFragmentDirections.actionNavigationDetailToFavorite(
+                        navigationArgs.movie
+                    )
+                )
             }
 
             ibFavoriteDetail.setOnClickListener {
-                if (isFavorite) {
-                    isFavorite = false
-                    mViewModel.deleteMovie(navigationArgs.movie)
-                } else {
-                    isFavorite = true
-                    mViewModel.saveMovie(navigationArgs.movie)
+                if (mViewModel.isFavorite) mViewModel.deleteMovie(navigationArgs.movie)
+                else mViewModel.saveMovie(navigationArgs.movie)
+                mViewModel.isFavorite = !mViewModel.isFavorite
+                navigationArgs.movie.apply {
+                    isFavorite = mViewModel.isFavorite
                 }
                 setupBtnFavorite(this)
             }
@@ -114,25 +110,25 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
             mAdapter = MovieDetailAdapter(navigationArgs.movie.getListGenre())
             rvGenre.adapter = mAdapter
 
-            /*checkFavourite()
-            setupBtnFavorite(this)*/
+            checkFavourite(this)
         }
     }
 
-    private fun checkFavourite() {
-        Log.d("favorite movie", "checkFavourite")
+    private fun checkFavourite(binding: FragmentMovieDetailBinding) {
         mViewModel.getSavedMovies().observe(viewLifecycleOwner) { movies ->
-            Log.d("favorite movie", movies.toString())
-            movies.forEach { favorite ->
-                if (favorite.title == navigationArgs.movie.title) {
-                    isFavorite = true
+            movies.let {
+                it.forEach { favorite ->
+                    if (favorite.title == navigationArgs.movie.title) {
+                        mViewModel.isFavorite = favorite.isFavorite
+                    }
                 }
             }
+            setupBtnFavorite(binding)
         }
     }
 
     private fun setupBtnFavorite(binding: FragmentMovieDetailBinding) = with(binding) {
-        if (isFavorite) ibFavoriteDetail.setBackgroundResource(R.drawable.ic_favorite_on)
+        if (mViewModel.isFavorite) ibFavoriteDetail.setBackgroundResource(R.drawable.ic_favorite_on)
         else ibFavoriteDetail.setBackgroundResource(R.drawable.ic_favorite_off)
     }
 

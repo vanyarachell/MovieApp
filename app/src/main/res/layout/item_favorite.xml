@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/dp8">
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_movie_favorite"
             android:layout_width="@dimen/dp120"
             android:layout_height="@dimen/dp162"
@@ -30,6 +30,7 @@
             android:src="@mipmap/ic_launcher"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.SelectedCornerRadius"
             app:srcImage="@{movie.fullPathUrl()}" />
 
         <androidx.appcompat.widget.AppCompatImageButton

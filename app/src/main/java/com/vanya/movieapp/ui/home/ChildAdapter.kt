@@ -13,8 +13,6 @@ import com.vanya.movieapp.databinding.ItemCategoryBinding
 class ChildAdapter constructor(private val listGenre: List<String>) :
     RecyclerView.Adapter<ChildAdapter.ItemViewHolder>() {
 
-//    private val listItem = arrayListOf<String>()
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         return ItemViewHolder(
             ItemCategoryBinding.bind(
@@ -29,25 +27,6 @@ class ChildAdapter constructor(private val listGenre: List<String>) :
     }
 
     override fun getItemCount() = listGenre.size
-
-    /*    fun updateData(listIds: List<Int>) {
-            listItem.clear()
-            val listString = arrayListOf<String>()
-            listIds.forEach { ids ->
-                listGenre.forEach { genre ->
-                    genre.id?.let {
-                        if (ids == it) {
-                            genre.name?.let { name ->
-                                listString.add(name)
-                            }
-                        }
-                    }
-                }
-            }
-
-            listItem.addAll(listString)
-            notifyItemRangeChanged(0, listItem.size)
-        }*/
 
     inner class ItemViewHolder(private val binding: ItemCategoryBinding) :
         RecyclerView.ViewHolder(binding.root) {

@@ -25,9 +25,21 @@
         <item name="fontFamily">@font/inter_regular</item>
     </style>
 
+    <style name="InterSmallGreen" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/rated_green</item>
+        <item name="android:textSize">@dimen/sp12</item>
+        <item name="fontFamily">@font/inter_regular</item>
+    </style>
+
     <style name="InterSmallWhite" parent="Widget.AppCompat.TextView">
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">@dimen/sp12</item>
+        <item name="fontFamily">@font/inter_regular</item>
+    </style>
+
+    <style name="InterBigWhite" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/sp18</item>
         <item name="fontFamily">@font/inter_regular</item>
     </style>
 
@@ -59,5 +71,14 @@
         <item name="android:layout_width">@dimen/dp277</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:padding">@dimen/dp16</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.App.CornerSize10Percent" parent="">
+        <item name="cornerSize">10%</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.App.SelectedCornerRadius" parent="">
+        <item name="cornerSizeTopRight">50dp</item>
+        <item name="cornerFamilyTopRight">rounded</item>
     </style>
 </resources>

@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vanya.movieapp.model.GenreResponse
-import com.vanya.movieapp.model.Movie
 import com.vanya.movieapp.model.MovieResponse
 import com.vanya.movieapp.repository.MovieRepository
 import com.vanya.movieapp.util.Resource
@@ -26,8 +25,6 @@ class HomeViewModel @Inject constructor(private val movieRepository: MovieReposi
     val searchedMovies: MutableLiveData<Resource<MovieResponse>> = MutableLiveData()
     private var searchedMovieResponse: MovieResponse? = null
 
-    val genreList: MutableLiveData<Resource<GenreResponse>> = MutableLiveData()
-
     val TOKEN =
         "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4YmMzODExNGYxN2E4ZTMwMDJhNWUxNTFiMWFjMmJkYSIsInN1YiI6IjU3MjI0ZGVlYzNhMzY4MmQxZTAwMDA3MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.3eFEU9Ajy3WJAlKDXTV3hVNEc7Al4QJMjRIcx9N9HUo"
 
@@ -38,10 +35,6 @@ class HomeViewModel @Inject constructor(private val movieRepository: MovieReposi
     fun searchMovies(query: String) = viewModelScope.launch {
         searchMoviesCall(query)
     }
-
-    /* fun getGenreList() = viewModelScope.launch {
-         safeGenreListCall()
-     }*/
 
     private suspend fun safePopularMoviesCall() {
         popularMovies.postValue(Resource.Loading())
@@ -54,12 +47,6 @@ class HomeViewModel @Inject constructor(private val movieRepository: MovieReposi
         val response = movieRepository.searchMovies("Bearer $TOKEN", query, searchPage)
         searchedMovies.postValue(handleSearchResponse(response))
     }
-
-    /*    private suspend fun safeGenreListCall() {
-            genreList.postValue(Resource.Loading())
-            val response = movieRepository.getGenres("Bearer $TOKEN")
-            genreList.postValue(handleGenresResponse(response))
-        }*/
 
     private fun handleMovieResponse(response: Response<MovieResponse>): Resource<MovieResponse> {
         if (response.isSuccessful) {
@@ -98,14 +85,4 @@ class HomeViewModel @Inject constructor(private val movieRepository: MovieReposi
         }
         return Resource.Error(response.message())
     }
-
-    /*    private fun handleGenresResponse(response: Response<GenreResponse>): Resource<GenreResponse> {
-            if (response.isSuccessful) {
-                response.body()?.let { resultResponse ->
-                    return Resource.Success(resultResponse)
-                }
-            }
-
-            return Resource.Error(response.message())
-        }*/
 }

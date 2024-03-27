@@ -26,14 +26,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private val mViewModel by viewModels<HomeViewModel>()
 
-    private var listGenres = listOf<Genre>()
-
     private val mAdapter by lazy {
         HomeAdapter(
             onClick = {
-                it.id?.let { id ->
-                    Toast.makeText(this@HomeFragment.context, id.toString(), Toast.LENGTH_SHORT)
-                        .show()
+                it.id?.let { _ ->
                     findNavController().navigate(
                         HomeFragmentDirections.actionNavigationHomeToNavigationDetail(
                             it
@@ -69,7 +65,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         setupRecyclerView()
 
         binding?.apply {
-//            mViewModel.getGenreList()
             mViewModel.getPopularMovies()
             Log.d("getPopularMovies", "onViewCreated")
 
@@ -92,35 +87,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
             })
         }
-
-        /*      mViewModel.genreList.observe(viewLifecycleOwner) { response ->
-                  when (response) {
-                      is Resource.Success -> {
-                          Log.e(" ==== GENRE LIST", "SUCCESS")
-                          response.data?.genres?.toList()?.let {
-                              listGenres = it
-                              Log.e(" ==== GENRE LIST", listGenres.size.toString())
-                          }
-                          hideProgressBar()
-                          hideErrorMessage()
-
-                          // update  genre
-      //                    mAdapter.updateGenre(listGenres)
-
-                          mViewModel.getPopularMovies()
-                      }
-
-                      is Resource.Error -> {
-                          Log.e(" ==== GENRE LIST", "ERROR")
-                          hideProgressBar()
-                      }
-
-                      is Resource.Loading -> {
-                          Log.e(" ==== GENRE LIST", "LOADING")
-                          showProgressBar()
-                      }
-                  }
-              }*/
 
         mViewModel.popularMovies.observe(viewLifecycleOwner) { response ->
             when (response) {
