@@ -1,6 +1,8 @@
 package com.vanya.movieapp.di
 
 import android.content.Context
+import android.net.ConnectivityManager
+import com.vanya.movieapp.MovieApplication
 import com.vanya.movieapp.api.ApiService
 import com.vanya.movieapp.db.MovieDatabase
 import com.vanya.movieapp.repository.MovieRepository
@@ -32,5 +34,17 @@ object AppModule {
     @Provides
     fun provideRepository(db: MovieDatabase): MovieRepository {
         return MovieRepository(db)
+    }
+
+    @Singleton
+    @Provides
+    fun provideMovieApplication(): MovieApplication {
+        return MovieApplication()
+    }
+
+    @Singleton
+    @Provides
+    fun provideConnectivityManager(@ApplicationContext context: Context): ConnectivityManager {
+        return context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     }
 }

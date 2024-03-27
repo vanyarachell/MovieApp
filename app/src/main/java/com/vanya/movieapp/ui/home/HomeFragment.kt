@@ -15,8 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.vanya.movieapp.R
 import com.vanya.movieapp.databinding.FragmentHomeBinding
-import com.vanya.movieapp.model.Genre
 import com.vanya.movieapp.util.Constants.Companion.QUERY_PAGE_SIZE
+import com.vanya.movieapp.util.RequestType
 import com.vanya.movieapp.util.Resource
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -86,6 +86,22 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 }
 
             })
+            itemErrorMessage.btnRetry.setOnClickListener {
+                when (mViewModel.reqType) {
+                    RequestType.SEARCH_MOVIE -> {
+                        mViewModel.searchMovies(searchedWord)
+
+                    }
+
+                    RequestType.POPULAR_MOVIE -> {
+                        mViewModel.getPopularMovies()
+                    }
+
+                    else -> {
+                        // do nothing
+                    }
+                }
+            }
         }
 
         mViewModel.popularMovies.observe(viewLifecycleOwner) { response ->
