@@ -10,8 +10,8 @@ import com.vanya.movieapp.databinding.ItemCategoryBinding
  * Created by vanyarachell on Sun, 24 Mar 2024
  * vanyarachel05@gmail.com
  */
-class ChildAdapter constructor(private val listGenre: List<String>) :
-    RecyclerView.Adapter<ChildAdapter.ItemViewHolder>() {
+class GenreAdapter constructor(private val listGenre: List<String>) :
+    RecyclerView.Adapter<GenreAdapter.ItemViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         return ItemViewHolder(

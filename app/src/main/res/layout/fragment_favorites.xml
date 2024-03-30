@@ -20,15 +20,13 @@
                 android:padding="@dimen/dp16"
                 tools:ignore="RtlSymmetry">
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_back_detail"
-                    style="@style/InterSmallWhite"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dp36"
+                    style="@style/ButtonBack"
                     android:background="@drawable/bg_rounded_transparent"
-                    android:drawableLeft="@drawable/ic_back"
                     android:text="@string/back"
-                    android:textAllCaps="false"
+                    android:drawableLeft="@drawable/ic_back_brown"
+                    android:textColor="@color/black"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="RtlHardcoded" />

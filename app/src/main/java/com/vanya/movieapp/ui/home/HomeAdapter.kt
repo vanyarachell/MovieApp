@@ -53,8 +53,8 @@ class HomeAdapter(
                 onClick(item)
             }
 
-            val mChildAdapter = ChildAdapter(item.getListGenre())
-            binding.childAdapter = mChildAdapter
+            val mGenreAdapter = GenreAdapter(item.getListGenre())
+            binding.genreAdapter = mGenreAdapter
         }
     }
 }

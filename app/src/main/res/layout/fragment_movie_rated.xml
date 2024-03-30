@@ -39,20 +39,13 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="50" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_back_rated"
-            style="@style/InterSmallWhite"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/dp36"
+            style="@style/ButtonBack"
             android:layout_marginStart="@dimen/dp16"
             android:layout_marginTop="@dimen/dp16"
             android:background="@drawable/bg_rounded_transparent"
-            android:clickable="true"
-            android:drawableLeft="@drawable/ic_back"
-            android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
-            android:text="@string/back_to_search"
-            android:textAllCaps="false"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="RtlHardcoded" />

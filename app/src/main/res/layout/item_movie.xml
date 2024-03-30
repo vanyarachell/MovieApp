@@ -14,8 +14,8 @@
             type="com.vanya.movieapp.model.Movie" />
 
         <variable
-            name="childAdapter"
-            type="com.vanya.movieapp.ui.home.ChildAdapter" />
+            name="genreAdapter"
+            type="com.vanya.movieapp.ui.home.GenreAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -86,7 +86,7 @@
             android:layout_width="@dimen/dp0"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp12"
-            android:adapter="@{childAdapter}"
+            android:adapter="@{genreAdapter}"
             android:nestedScrollingEnabled="false"
             android:orientation="horizontal"
             android:scrollbars="horizontal"

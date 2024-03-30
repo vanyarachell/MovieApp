@@ -4,6 +4,7 @@ import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import com.vanya.movieapp.util.Constants.Companion.BASE_URL_IMAGE
 import com.vanya.movieapp.util.DataGenres
 import kotlinx.parcelize.Parcelize
 
@@ -76,8 +77,8 @@ data class Movie(
         return (voteAverage?.times(10) ?: 0.0).toInt()
     }
 
-    fun fullPathUrl(): String = "https://image.tmdb.org/t/p/w342$posterPath"
-    fun fullBackdropUrl(): String = "https://image.tmdb.org/t/p/w342$backdropPath"
+    fun fullPathUrl(): String = BASE_URL_IMAGE + posterPath
+    fun fullBackdropUrl(): String = BASE_URL_IMAGE + backdropPath
 
     fun getListGenre(): List<String> {
         val listString = arrayListOf<String>()
